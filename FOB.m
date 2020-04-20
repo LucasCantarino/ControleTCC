@@ -1,6 +1,5 @@
 function [erro] = FOB(k)
 
-
 Kp = k(1); Ki = k(2); Kd = k(3); Tf = k(4);
 s=tf('s');
 b = 0.055;
@@ -26,6 +25,6 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrauSym,t))
 % O erro é calculado como diferença entre o degrau de referência e a
 % integrau da função da resposta ao degrau. O erro é calculado do tempo t = 0 até o tempo t = 0.1 
 
-erro = 0.1 - int(funcaoNoTempo,t,0,0.1)
+erro = double(0.1 - int(funcaoNoTempo,t,0,0.1))
 
 

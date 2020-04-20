@@ -2,6 +2,8 @@
 % Essa é uma versão para teste individual da FOB. Para isso os parâmetros
 % são setados e não recebidos como parâmetro
 
+clc; clear all;
+
 Kp = 2; Ki = 3; Kd = 4; Tf = 5;
 
 s=tf('s');
@@ -28,4 +30,4 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrauSym,t))
 % O erro é calculado como diferença entre o degrau de referência e a
 % integrau da função da resposta ao degrau. O erro é calculado do tempo t = 0 até o tempo t = 0.1 
 
-erro = 0.1 - int(funcaoNoTempo,t,0,0.1)
+erro = double(0.1 - int(funcaoNoTempo,t,0,0.1))
