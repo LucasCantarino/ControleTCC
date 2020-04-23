@@ -2,7 +2,7 @@
 % Essa é uma versão para teste individual da FOB. Para isso os parâmetros
 % são setados e não recebidos como parâmetro
 
-clc; clear all;
+clc; clear all; close all;
 
 % Essas linhas abaixo se referem ao cálculo do valor literal de
 % RespostaDegrau. Como é constante para esse sistema, optamos por jogar
@@ -14,12 +14,12 @@ clc; clear all;
 % C = Kp + Ki/s + Kd*s/(Tf*s+1)
 % F = P*C/(1+P*C)
 % RespostaDegrau = F/s
-% Kp = 261.3; Ki = 6015; Kd = 2691; Tf = 0.0004506;
+% Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;
 % RespostaDegrauNum = subs(RespostaDegrau)
 
 syms Kp; syms Ki; syms Kd; syms Tf; syms s;
 RespostaDegrau = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
-Kp = 261.3; Ki = 6015; Kd = 2691; Tf = 0.0004506;
+Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;
 RespostaDegrauNum = subs(RespostaDegrau)
 % Calculando a inversa de laplace
 
@@ -31,8 +31,9 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrauNum,t))
 
 flagTs = 0; flagMp = 0; flagSt = 0;
 funcaoNoTempoNumAnterior = 0;
-for i=0.0001:0.000001:0.001
-    funcaoNoTempoNum = subs(funcaoNoTempo,t,i)
+j = 1;
+for i=0.0001:0.0001:0.01
+    funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flagTs = 1;
@@ -47,8 +48,11 @@ for i=0.0001:0.000001:0.001
         break
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;
+    funcaoNoTempoVetor(j) = funcaoNoTempoNum;
+    j = j+1;
 end
 % O erro é calculado como diferença entre o degrau de referência e a
 % integrau da função da resposta ao degrau. O erro é calculado do tempo t = 0 até o tempo t = 0.1 
-
+figure
+plot(funcaoNoTempoVetor)
 erro = double(0.1 - int(funcaoNoTempo,t,0,0.1))
