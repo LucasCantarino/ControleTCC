@@ -13,7 +13,7 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrau,t))
 
 flagTs = 0; flagMp = 0; flagSt = 0;
 funcaoNoTempoNumAnterior = 0;
-for i=0.0001:0.000001:0.001
+for i=0.0001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,t,i)
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i

@@ -32,7 +32,7 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrauNum,t))
 flagTs = 0; flagMp = 0; flagSt = 0;
 funcaoNoTempoNumAnterior = 0;
 j = 1;
-for i=0.0001:0.0001:0.01
+for i=0.0001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
@@ -48,8 +48,7 @@ for i=0.0001:0.0001:0.01
         break
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;
-    funcaoNoTempoVetor(j) = funcaoNoTempoNum;
-    j = j+1;
+    funcaoNoTempoVetor(10^4*i) = funcaoNoTempoNum;
 end
 % O erro é calculado como diferença entre o degrau de referência e a
 % integrau da função da resposta ao degrau. O erro é calculado do tempo t = 0 até o tempo t = 0.1 
