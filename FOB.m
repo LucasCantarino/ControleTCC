@@ -14,7 +14,7 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrau,t))
 flagTs = 0; flagMp = 0; flagSt = 0;
 funcaoNoTempoNumAnterior = 0;
 for i=0.0001:0.0001:0.04
-    funcaoNoTempoNum = subs(funcaoNoTempo,t,i)
+    funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flagTs = 1;
@@ -28,28 +28,20 @@ for i=0.0001:0.0001:0.04
         St = i
         break
     end
-    funcaoNoTempoNumAnterior = funcaoNoTempoNum;
+    funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
+    funcaoNoTempoVetor(10^4*i) = funcaoNoTempoNum;
 end
+figure
+plot(funcaoNoTempoVetor)
 
-% O erro é calculado como diferença entre o degrau de referência e a
-% integrau da função da resposta ao degrau. O erro é calculado do tempo t = 0 até o tempo t = 0.04 
+erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)
 
-erro = double(0.04 - int(funcaoNoTempo,t,0,0.04))*(1/Ts^2+1/(0.156*St)^2+(179*Mp)^2)/120000
-
-% A funçao de erro acima foi definida levando em consideração tempo de
-% subida (Ts), máximo sobressinal (Mp) e tempo de acomodação (St). 
-% O erro é calculado como diferença entre o degrau de referência e a
-% integrau da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04. 
-% O fator multiplicador de penalidade é um multiplicador relacionado a Ts, Mp e St.
-% Para parâmetros menores que 1(Ts e St), colocamos a multiplicador no denominador,
-% para que, caso seja elevado, aumentem o erro. Já o Mp colocamos no
-% multiplicador por ser positivo. Os parâmetros foram elevados ao quadrado
-% para intensificar o processo de eliminação dos indivíduos com parâmetros
-% muito diferentes do ideal. Além disso, as consantes que multiplicam os
-% parâmetros servem para balancear igualmente os impactos dos 3 parâmetros
-% na FOB. Mas para isso, é necessária uma referência. A referência
-% escolhida foi baseada nos parâmetros Kp, Ki, Kd e Tf fornecidos pelo PID
-% Tuner para a planta contínua P do código "Controle". As constantes foram
-% escolhidas de modo que para esses Kp, Ki, Kd e Tf dados, os fatores
-% 1/Ts^2, 1/(0.156*St)^2 e (179*Mp)^2 sejam cada um aproximadamente 40000. No
-% fim, o erro é dividido novamente por 120000 para compensar 3*40000.
+%O erro é calculado como diferença entre o degrau de referência e a
+% integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
+% Poré, a função de erro acima foi definida levando em consideração tempo de
+% subida (Ts), máximo sobressinal (Mp) e tempo de acomodação (St).  
+% Para eliminar indivíduos com Ts, Mp e St altos, há os fatores exp(Ts-0.05), exp(Mp-1.2) exp(St-0.3)
+% somando ao erro. Mas para isso, são necessárias referências. As
+% referências escolhidas foram Ts = 0.05, Mp = 1.2 e St = 0.3 como sendo limites. Caso Ts, Mp ou St
+% sejam iguais à referência limite o referente fator de soma será 1, e caso
+% o limite seja ultrapassado, o fator de soma irá aumentar abruptamente.
