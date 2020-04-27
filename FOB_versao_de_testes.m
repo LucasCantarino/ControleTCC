@@ -47,7 +47,7 @@ for i=0.0001:0.0001:0.04
         break
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
-    funcaoNoTempoVetor(10^4*i) = funcaoNoTempoNum;
+    funcaoNoTempoVetor(uint8(10^4*i)) = funcaoNoTempoNum;
 end
 figure
 plot(funcaoNoTempoVetor)
