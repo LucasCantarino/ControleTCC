@@ -28,12 +28,8 @@ for i=0.0001:0.0001:0.04
         St = i
         break
     end
-    funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
-    funcaoNoTempoVetor(10^4*i) = funcaoNoTempoNum;
+    funcaoNoTempoNumAnterior = funcaoNoTempoNum;   
 end
-figure
-plot(funcaoNoTempoVetor)
-
 erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)
 
 %O erro é calculado como diferença entre o degrau de referência e a

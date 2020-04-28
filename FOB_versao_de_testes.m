@@ -31,6 +31,7 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrauNum,t))
 
 flagTs = 0; flagMp = 0; flagSt = 0;
 funcaoNoTempoNumAnterior = 0;
+j = 1;
 for i=0.0001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
@@ -47,7 +48,8 @@ for i=0.0001:0.0001:0.04
         break
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
-    funcaoNoTempoVetor(uint8(10^4*i)) = funcaoNoTempoNum;
+    j = j + 1;
+    funcaoNoTempoVetor(j) = funcaoNoTempoNum;
 end
 figure
 plot(funcaoNoTempoVetor)
