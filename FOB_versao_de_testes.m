@@ -50,9 +50,10 @@ for i=0.0001:0.0001:0.04
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
     j = j + 1;
     funcaoNoTempoVetor(j) = funcaoNoTempoNum;
+    vetorTempo(j) = i;
 end
 figure
-plot(funcaoNoTempoVetor)
+plot(vetorTempo,funcaoNoTempoVetor)
 
 erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)
 
