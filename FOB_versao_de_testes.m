@@ -37,25 +37,27 @@ for i=0.0001:0.0001:0.04
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flagTs = 1;
+    else
+        Ts = 10;
     end
-    if (flagMp == 0 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
-        Mp = funcaoNoTempoNumAnterior
-        flagMp = 1;
-        flagSt = 1;
-    end
-    if (flagSt == 1 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
+    if (abs(1 - funcaoNoTempoNum)<=0.02) % Tempo de acomodação
         St = i
         break
+    else
+        St = 10;
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
     j = j + 1;
     funcaoNoTempoVetor(j) = funcaoNoTempoNum;
     vetorTempo(j) = i;
 end
+
+Mp = max(funcaoNoTempoVetor); %Máximo sobressinal
+
 figure
 plot(vetorTempo,funcaoNoTempoVetor)
 
-erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)
+erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3))
 
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
