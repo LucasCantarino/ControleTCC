@@ -37,27 +37,42 @@ for i=0.0001:0.0001:0.04
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flagTs = 1;
-    else
-        Ts = 10;
     end
-    if (abs(1 - funcaoNoTempoNum)<=0.02) % Tempo de acomodação
+    if (flagMp == 0 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
+        Mp = funcaoNoTempoNumAnterior
+        flagMp = 1;
+        flagSt = 1;
+    end
+    if (flagSt == 1 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
         St = i
         break
-    else
-        St = 10;
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
     j = j + 1;
     funcaoNoTempoVetor(j) = funcaoNoTempoNum;
     vetorTempo(j) = i;
 end
-
-Mp = max(funcaoNoTempoVetor); %Máximo sobressinal
-
 figure
 plot(vetorTempo,funcaoNoTempoVetor)
 
-erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3))
+% Caso o sistema controlado possa ser superamortecido, descomentar as
+% linhas abaixo
+
+% if(flagTs == 0)
+%     for i=0.001:0.0001:0.04
+%         if funcaoNoTempoNum>=0.98
+%             St = i;
+%             break
+%         end
+%     end 
+%     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + 3*exp(St-0.3)
+% end
+%if(flagTs == 1) 
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)
+%end
+
+
+
 
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
@@ -68,3 +83,9 @@ erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + 
 % referências escolhidas foram Ts = 0.05, Mp = 1.2 e St = 0.3 como sendo limites. Caso Ts, Mp ou St
 % sejam iguais à referência limite o referente fator de soma será 1, e caso
 % o limite seja ultrapassado, o fator de soma irá aumentar abruptamente.
+
+% Obs: caso o sistema seja superamortecido, Mp é 0 e St não se aplica. Além
+% disso, o termo exp(St-0.3) é multiplicado por 3 para evitar selecionar
+% sistemas superamortecidos lentos.
+
+

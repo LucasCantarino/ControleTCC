@@ -13,7 +13,7 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrau,t))
 
 flagTs = 0; flagMp = 0; flagSt = 0;
 funcaoNoTempoNumAnterior = 0;
-for i=0.0001:0.0001:0.04
+for i=0.001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
     if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
@@ -30,7 +30,19 @@ for i=0.0001:0.0001:0.04
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;   
 end
-erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3))
+% if(flagTs == 0)
+%     for i=0.001:0.0001:0.04
+%         if funcaoNoTempoNum>=0.98
+%             St = i;
+%             break
+%         end
+%     end 
+%     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + 3*exp(St-0.3)
+% end
+
+%if(flagTs == 1) 
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)
+%end
 
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
@@ -41,3 +53,7 @@ erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + 
 % referências escolhidas foram Ts = 0.05, Mp = 1.2 e St = 0.3 como sendo limites. Caso Ts, Mp ou St
 % sejam iguais à referência limite o referente fator de soma será 1, e caso
 % o limite seja ultrapassado, o fator de soma irá aumentar abruptamente.
+
+% Obs: caso o sistema seja superamortecido, Mp é 0 e St não se aplica. Além
+% disso, o termo exp(St-0.3) é multiplicado por 3 para evitar selecionar
+% sistemas superamortecidos lentos.
