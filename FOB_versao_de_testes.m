@@ -29,21 +29,21 @@ funcaoNoTempo = vpa(ilaplace(RespostaDegrauNum,t))
 % A seguir, serão calculados alguns parâmetros que podem servir de base
 % para avaliação da resposta ao degrau
 
-flagTs = 0; flagMp = 0; flagSt = 0;
+flag = 0;
 funcaoNoTempoNumAnterior = 0;
 j = 1;
 for i=0.0001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
-    if (flagTs == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
+    if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
-        flagTs = 1;
+        flag = 1;
     end
-    if (flagMp == 0 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
-        Mp = funcaoNoTempoNumAnterior
+    if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
+        Mp = double(funcaoNoTempoNumAnterior)
         flagMp = 1;
-        flagSt = 1;
+        flag = 2;
     end
-    if (flagSt == 1 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
+    if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
         St = i
         break
     end
@@ -58,18 +58,21 @@ plot(vetorTempo,funcaoNoTempoVetor)
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo
 
-% if(flagTs == 0)
-%     for i=0.001:0.0001:0.04
-%         if funcaoNoTempoNum>=0.98
-%             St = i;
-%             break
-%         end
-%     end 
-%     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + 3*exp(St-0.3)
-% end
-%if(flagTs == 1) 
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)
-%end
+if(flag == 0)
+    for i=0.001:0.0001:0.04
+        if funcaoNoTempoNum>=0.98
+            St = i;
+            break
+        end
+    end 
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
+end
+if(flag == 1)
+    erro=10;
+end
+if(flag == 2) 
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
+end
 
 
 
