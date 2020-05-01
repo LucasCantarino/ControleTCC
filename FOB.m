@@ -2,13 +2,13 @@ function [erro] = FOB(k)
 
 syms s;
 RespostaDegrau = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
-esforcoControle = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
+esforcoControle = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
 
 % Calculando a inversa de laplace
 
 syms t;
 funcaoNoTempo = vpa(ilaplace(RespostaDegrau,t))
-esforcoControleNoTempo = vpa(ilaplace(esforcoControleNum,t))
+esforcoControleNoTempo = vpa(ilaplace(esforcoControle,t))
 % A seguir, serão calculados alguns parâmetros que podem servir de base
 % para avaliação da resposta ao degrau
 
@@ -30,7 +30,7 @@ for i=0.001:0.0001:0.04
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;   
 end
-esforcoControleNoTempoMax = subs(esforcoControleNoTempo,t,0.0001)
+esforcoDeControleMax = subs(esforcoControleNoTempo,t,0.0001)
 if(flag == 0)
     for i=0.001:0.0001:0.04
         if funcaoNoTempoNum>=0.98

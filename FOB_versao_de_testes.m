@@ -86,7 +86,7 @@ esforcoDeControleMax
 
 
 
-%O erro é calculado como diferença entre o degrau de referência e a
+% O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de
 % subida (Ts), máximo sobressinal (Mp) e tempo de acomodação (St).  
