@@ -8,24 +8,28 @@ clc; clear all; close all;
 % RespostaDegrau. Como é constante para esse sistema, optamos por jogar
 % direto a expressão para poupar tempo de processamento
 
-% syms Kp; syms Ki; syms Kd; syms Tf; syms s;
+% syms Kp; syms Ki; syms Kd; syms Tf; 
+syms s;
 % b = 0.055;
 % P = (1/(b*s+1))*(1/(0.125*s+1))
 % C = Kp + Ki/s + Kd*s/(Tf*s+1)
 % F = P*C/(1+P*C)
 % RespostaDegrau = F/s
+% esforcoControle = RespostaDegrau/P
 % Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;
 % RespostaDegrauNum = subs(RespostaDegrau)
 
 syms Kp; syms Ki; syms Kd; syms Tf; syms s;
 RespostaDegrau = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
+esforcoControle = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
 Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;
 RespostaDegrauNum = subs(RespostaDegrau)
+esforcoControleNum = subs(esforcoControle)
 % Calculando a inversa de laplace
 
 syms t;
 funcaoNoTempo = vpa(ilaplace(RespostaDegrauNum,t))
-
+esforcoControleNoTempo = vpa(ilaplace(esforcoControleNum,t))
 % A seguir, serão calculados alguns parâmetros que podem servir de base
 % para avaliação da resposta ao degrau
 
@@ -34,6 +38,7 @@ funcaoNoTempoNumAnterior = 0;
 j = 1;
 for i=0.0001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
+    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,t,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flag = 1;
@@ -50,11 +55,15 @@ for i=0.0001:0.0001:0.04
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
     j = j + 1;
     funcaoNoTempoVetor(j) = funcaoNoTempoNum;
+    EsforcoControleNoTempoVetor(j) = esforcoControleNoTempoNum;
     vetorTempo(j) = i;
 end
 figure
 plot(vetorTempo,funcaoNoTempoVetor)
+figure
+plot(vetorTempo,EsforcoControleNoTempoVetor)
 
+esforcoDeControleMax = max(esforcoControleNoTempoNum)
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo
 
@@ -67,13 +76,13 @@ if(flag == 0)
     end 
     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
 end
-if(flag == 1)
+if(flag == 1 || esforcoDeControleMax > 5122)
     erro=10;
 end
 if(flag == 2) 
     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
 end
-
+esforcoDeControleMax
 
 
 
