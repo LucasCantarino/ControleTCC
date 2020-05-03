@@ -1,4 +1,3 @@
-
 % Essa é uma versão para teste individual da FOB. Para isso os parâmetros
 % são setados e não recebidos como parâmetro
 
@@ -8,37 +7,39 @@ clc; clear all; close all;
 % RespostaDegrau. Como é constante para esse sistema, optamos por jogar
 % direto a expressão para poupar tempo de processamento
 
-% syms Kp; syms Ki; syms Kd; syms Tf; 
-syms s;
+% syms Kp; syms Ki; syms Kd; syms Tf; syms z;
+% Ts = 0.0002;
 % b = 0.055;
-% P = (1/(b*s+1))*(1/(0.125*s+1))
-% C = Kp + Ki/s + Kd*s/(Tf*s+1)
-% F = P*C/(1+P*C)
-% RespostaDegrau = F/s
-% esforcoControle = RespostaDegrau/P
-% Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;
+% Pd = (1.452*10^(-6)*z^2 + 2.904*10^(-6)*z + 1.452*10^(-6))/(z^2 - 1.996*z + 0.9964)
+% C = Kp + Ki*Ts/(z-1) + Kd/(Tf + Ts/(z-1))
+% F = Pd*C/(1+Pd*C)
+% RespostaDegrau = F*z/(z-1)
+% esforcoControle = RespostaDegrau/Pd
+% Kp = 262.2; Ki = 6024; Kd = 2.692; Tf = 0.0005503;
 % RespostaDegrauNum = subs(RespostaDegrau)
 
-syms Kp; syms Ki; syms Kd; syms Tf; syms s;
-RespostaDegrau = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
-esforcoControle = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
+
+syms Kp; syms Ki; syms Kd; syms Tf; syms z;
+Ts = 0.0002;
+RespostaDegrau = (z*((1714219033281681*z^2)/1180591620717411303424 + (1714219033281681*z)/590295810358705651712 + 1714219033281681/1180591620717411303424)*(Kp + Kd/(Tf + 1/(5000*(z - 1))) + Ki/(5000*(z - 1))))/(((((1714219033281681*z^2)/1180591620717411303424 + (1714219033281681*z)/590295810358705651712 + 1714219033281681/1180591620717411303424)*(Kp + Kd/(Tf + 1/(5000*(z - 1))) + Ki/(5000*(z - 1))))/(z^2 - (499*z)/250 + 2491/2500) + 1)*(z - 1)*(z^2 - (499*z)/250 + 2491/2500))
+esforcoControle = (z*(Kp + Kd/(Tf + 1/(5000*(z - 1))) + Ki/(5000*(z - 1))))/(((((1714219033281681*z^2)/1180591620717411303424 + (1714219033281681*z)/590295810358705651712 + 1714219033281681/1180591620717411303424)*(Kp + Kd/(Tf + 1/(5000*(z - 1))) + Ki/(5000*(z - 1))))/(z^2 - (499*z)/250 + 2491/2500) + 1)*(z - 1))
 Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;
 RespostaDegrauNum = subs(RespostaDegrau)
 esforcoControleNum = subs(esforcoControle)
 % Calculando a inversa de laplace
 
-syms t;
-funcaoNoTempo = vpa(ilaplace(RespostaDegrauNum,t))
-esforcoControleNoTempo = vpa(ilaplace(esforcoControleNum,t))
+syms n;
+funcaoNoTempo = vpa(iztrans(RespostaDegrauNum))
+esforcoControleNoTempo = vpa(iztrans(esforcoControleNum))
 % A seguir, serão calculados alguns parâmetros que podem servir de base
 % para avaliação da resposta ao degrau
 
 flag = 0;
 funcaoNoTempoNumAnterior = 0;
 j = 1;
-for i=0.0001:0.0001:0.04
-    funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
-    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,t,i);
+for i=0.0002:0.0002:0.04
+    funcaoNoTempoNum = subs(funcaoNoTempo,n,i);
+    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,n,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flag = 1;
@@ -69,19 +70,19 @@ esforcoDeControleMax = max(esforcoControleNoTempoNum)
 
 if(flag == 0)
     St = 10;
-    for i=0.001:0.0001:0.04
+    for i=0.001:0.0002:0.04
         if funcaoNoTempoNum>=0.98
             St = i;
             break
         end
     end 
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
+    erro = double(0.04 - vetorTempo*funcaoNoTempoNum + 3*exp(St-0.3));
 end
 if(flag == 1 || esforcoDeControleMax > 5122)
     erro=10;
 end
 if(flag == 2) 
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
+    erro = double(0.04 - vetorTempo*funcaoNoTempoNum+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
 end
 esforcoDeControleMax
 
@@ -100,5 +101,3 @@ esforcoDeControleMax
 % Obs: caso o sistema seja superamortecido, Mp é 0 e St não se aplica. Além
 % disso, o termo exp(St-0.3) é multiplicado por 3 para evitar selecionar
 % sistemas superamortecidos lentos.
-
-

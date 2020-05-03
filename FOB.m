@@ -32,6 +32,7 @@ for i=0.001:0.0001:0.04
 end
 esforcoDeControleMax = subs(esforcoControleNoTempo,t,0.0001)
 if(flag == 0)
+    St = 10;
     for i=0.001:0.0001:0.04
         if funcaoNoTempoNum>=0.98
             St = i;
