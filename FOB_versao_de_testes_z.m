@@ -28,7 +28,7 @@ RespostaDegrauNum = subs(RespostaDegrau)
 esforcoControleNum = subs(esforcoControle)
 % Calculando a inversa de laplace
 
-syms n;
+%syms n;
 funcaoNoTempo = vpa(iztrans(RespostaDegrauNum))
 esforcoControleNoTempo = vpa(iztrans(esforcoControleNum))
 % A seguir, serão calculados alguns parâmetros que podem servir de base
@@ -38,15 +38,14 @@ flag = 0;
 funcaoNoTempoNumAnterior = 0;
 j = 1;
 for i=0.0002:0.0002:0.04
-    funcaoNoTempoNum = subs(funcaoNoTempo,n,i);
-    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,n,i);
+    funcaoNoTempoNum = subs(funcaoNoTempo,i);
+    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flag = 1;
     end
     if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
         Mp = double(funcaoNoTempoNumAnterior)
-        flagMp = 1;
         flag = 2;
     end
     if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
@@ -72,19 +71,19 @@ if(flag == 0)
     St = 10;
     for i=0.001:0.0002:0.04
         if funcaoNoTempoNum>=0.98
-            St = i;
+            St = i
             break
         end
     end 
-    erro = double(0.04 - vetorTempo*funcaoNoTempoNum + 3*exp(St-0.3));
+    erro = double(0.04 - 0.0002*sum(funcaoNoTempoVetor) + 3*exp(St-0.3))
 end
 if(flag == 1 || esforcoDeControleMax > 5122)
-    erro=10;
+    erro=10
 end
 if(flag == 2) 
-    erro = double(0.04 - vetorTempo*funcaoNoTempoNum+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
+    erro = double(0.04 - 0.0002*sum(funcaoNoTempoVetor) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3))
 end
-esforcoDeControleMax
+
 
 
 

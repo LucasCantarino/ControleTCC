@@ -37,8 +37,8 @@ flag = 0;
 funcaoNoTempoNumAnterior = 0;
 j = 1;
 for i=0.0001:0.0001:0.04
-    funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
-    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,t,i);
+    funcaoNoTempoNum = subs(funcaoNoTempo,i);
+    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flag = 1;
@@ -71,19 +71,19 @@ if(flag == 0)
     St = 10;
     for i=0.001:0.0001:0.04
         if funcaoNoTempoNum>=0.98
-            St = i;
+            St = i
             break
         end
     end 
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3))
 end
 if(flag == 1 || esforcoDeControleMax > 5122)
-    erro=10;
+    erro=10
 end
 if(flag == 2) 
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3))
 end
-esforcoDeControleMax
+
 
 
 
