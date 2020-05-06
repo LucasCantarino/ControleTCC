@@ -63,7 +63,7 @@ plot(vetorTempo,funcaoNoTempoVetor)
 figure
 plot(vetorTempo,EsforcoControleNoTempoVetor)
 
-esforcoDeControleMax = max(esforcoControleNoTempoNum)
+esforcoDeControleMax = max(EsforcoControleNoTempoVetor)
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo
 

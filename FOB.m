@@ -1,6 +1,8 @@
 function [erro] = FOB(k)
 
 syms s;
+% Descomentar abaixo para testes
+% k(1) = 261.3; k(2) = 6015; k(3) = 2.691; k(4) = 0.0004506;
 RespostaDegrau = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
 esforcoControle = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
 
@@ -14,8 +16,10 @@ esforcoControleNoTempo = vpa(ilaplace(esforcoControle,t))
 
 flag =0;
 funcaoNoTempoNumAnterior = 0;
+esforcoControleNoTempoMax = 0;
 for i=0.001:0.0001:0.04
-    funcaoNoTempoNum = subs(funcaoNoTempo,t,i);
+    funcaoNoTempoNum = subs(funcaoNoTempo,i);
+    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flag = 1;
@@ -28,9 +32,12 @@ for i=0.001:0.0001:0.04
         St = i
         break
     end
+    if esforcoControleNoTempoNum > esforcoControleNoTempoMax
+        esforcoControleNoTempoMax = esforcoControleNoTempoNum;
+    end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;   
 end
-esforcoDeControleMax = subs(esforcoControleNoTempo,t,0.0001)
+esforcoControleNoTempoMax
 if(flag == 0)
     St = 10;
     for i=0.001:0.0001:0.04
@@ -41,7 +48,7 @@ if(flag == 0)
     end
     e = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
 end
-if(flag == 1 || esforcoDeControleMax > 5122)
+if(flag == 1 || esforcoControleNoTempoMax > 5122)
     e=10;
 end
 if(flag == 2)
