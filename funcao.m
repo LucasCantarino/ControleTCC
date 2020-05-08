@@ -4,7 +4,3 @@ clc; clear all; close all;
 % 0.6 no código "controle" para a planta contínua P. Os valores máximos
 % foram definidos no chute.
 k = fmincon(@FOB,[261.3,6015,2.691,0.0004506],[],[],[],[],[26,600,0.27,0.000045],[1000,50000,20,0.01]);
-Kp = k(1)
-Ki = k(2)
-Kd = k(3)
-Tf = k(4)
