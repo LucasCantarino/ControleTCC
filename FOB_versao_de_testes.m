@@ -53,17 +53,17 @@ for i=0.0001:0.0001:0.04
         break
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
-    j = j + 1;
     funcaoNoTempoVetor(j) = funcaoNoTempoNum;
     EsforcoControleNoTempoVetor(j) = esforcoControleNoTempoNum;
     vetorTempo(j) = i;
+    j = j + 1;
 end
 figure
 plot(vetorTempo,funcaoNoTempoVetor)
 figure
 plot(vetorTempo,EsforcoControleNoTempoVetor)
 
-esforcoDeControleMax = max(EsforcoControleNoTempoVetor)
+esforcoDeControleMax = EsforcoControleNoTempoVetor(1)
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo
 
@@ -75,13 +75,13 @@ if(flag == 0)
             break
         end
     end 
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3))
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoDeControleMax-5122))
 end
-if(flag == 1 || esforcoDeControleMax > 5122)
+if(flag == 1)
     erro=10
 end
 if(flag == 2) 
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3))
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)  + exp(esforcoDeControleMax-5122))
 end
 
 

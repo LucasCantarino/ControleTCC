@@ -16,10 +16,8 @@ esforcoControleNoTempo = vpa(ilaplace(esforcoControle,t))
 
 flag =0;
 funcaoNoTempoNumAnterior = 0;
-esforcoControleNoTempoMax = 0;
 for i=0.001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,i);
-    esforcoControleNoTempoNum = subs(esforcoControleNoTempo,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
         Ts = i
         flag = 1;
@@ -32,12 +30,9 @@ for i=0.001:0.0001:0.04
         St = i
         break
     end
-    if esforcoControleNoTempoNum > esforcoControleNoTempoMax
-        esforcoControleNoTempoMax = esforcoControleNoTempoNum;
-    end
-    funcaoNoTempoNumAnterior = funcaoNoTempoNum;   
+    funcaoNoTempoNumAnterior = funcaoNoTempoNum;    
 end
-esforcoControleNoTempoMax
+esforcoControleNoTempoMax = subs(esforcoControleNoTempo,0.0001)
 if(flag == 0)
     St = 10;
     for i=0.001:0.0001:0.04
@@ -46,13 +41,13 @@ if(flag == 0)
             break
         end
     end
-    e = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
+    e = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
 end
-if(flag == 1 || esforcoControleNoTempoMax > 5122)
+if(flag == 1)
     e=10;
 end
 if(flag == 2)
-    e = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
+    e = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
 end
 erro = e
 %O erro é calculado como diferença entre o degrau de referência e a
