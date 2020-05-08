@@ -18,7 +18,6 @@ clc; clear all; close all;
 % Kp = 262.2; Ki = 6024; Kd = 2.692; Tf = 0.0005503;
 % RespostaDegrauNum = subs(RespostaDegrau)
 
-
 syms Kp; syms Ki; syms Kd; syms Tf; syms z;
 Ts = 0.0002;
 RespostaDegrau = (z*((1714219033281681*z^2)/1180591620717411303424 + (1714219033281681*z)/590295810358705651712 + 1714219033281681/1180591620717411303424)*(Kp + Kd/(Tf + 1/(5000*(z - 1))) + Ki/(5000*(z - 1))))/(((((1714219033281681*z^2)/1180591620717411303424 + (1714219033281681*z)/590295810358705651712 + 1714219033281681/1180591620717411303424)*(Kp + Kd/(Tf + 1/(5000*(z - 1))) + Ki/(5000*(z - 1))))/(z^2 - (499*z)/250 + 2491/2500) + 1)*(z - 1)*(z^2 - (499*z)/250 + 2491/2500))
@@ -45,7 +44,7 @@ for i=0.0002:0.0002:0.04
         flag = 1;
     end
     if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
-        Mp = double(funcaoNoTempoNumAnterior)
+        Mp = funcaoNoTempoNumAnterior
         flag = 2;
     end
     if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
@@ -53,17 +52,17 @@ for i=0.0002:0.0002:0.04
         break
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
-    j = j + 1;
     funcaoNoTempoVetor(j) = funcaoNoTempoNum;
     EsforcoControleNoTempoVetor(j) = esforcoControleNoTempoNum;
     vetorTempo(j) = i;
+    j = j + 1;
 end
 figure
 plot(vetorTempo,funcaoNoTempoVetor)
 figure
 plot(vetorTempo,EsforcoControleNoTempoVetor)
 
-esforcoDeControleMax = max(esforcoControleNoTempoNum)
+esforcoDeControleMax = EsforcoControleNoTempoVetor(1)
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo
 
@@ -75,17 +74,14 @@ if(flag == 0)
             break
         end
     end 
-    erro = double(0.04 - 0.0002*sum(funcaoNoTempoVetor) + 3*exp(St-0.3))
+    erro = double(0.04 - 0.0002*sum(funcaoNoTempoVetor) + 3*exp(St-0.3)) + exp(esforcoDeControleMax-5122)
 end
-if(flag == 1 || esforcoDeControleMax > 5122)
+if(flag == 1)
     erro=10
 end
 if(flag == 2) 
-    erro = double(0.04 - 0.0002*sum(funcaoNoTempoVetor) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3))
+    erro = double(0.04 - 0.0002*sum(funcaoNoTempoVetor) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)) + exp(esforcoDeControleMax-5122)
 end
-
-
-
 
 % O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.

@@ -1,4 +1,3 @@
-
 % Essa é uma versão para teste individual da FOB. Para isso os parâmetros
 % são setados e não recebidos como parâmetro
 
@@ -9,7 +8,7 @@ clc; clear all; close all;
 % direto a expressão para poupar tempo de processamento
 
 % syms Kp; syms Ki; syms Kd; syms Tf; 
-syms s;
+% syms s;
 % b = 0.055;
 % P = (1/(b*s+1))*(1/(0.125*s+1))
 % C = Kp + Ki/s + Kd*s/(Tf*s+1)
@@ -44,8 +43,7 @@ for i=0.0001:0.0001:0.04
         flag = 1;
     end
     if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
-        Mp = double(funcaoNoTempoNumAnterior)
-        flagMp = 1;
+        Mp = funcaoNoTempoNumAnterior
         flag = 2;
     end
     if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
@@ -83,9 +81,6 @@ end
 if(flag == 2) 
     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)  + exp(esforcoDeControleMax-5122))
 end
-
-
-
 
 % O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.

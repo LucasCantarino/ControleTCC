@@ -23,7 +23,7 @@ for i=0.001:0.0001:0.04
         flag = 1;
     end
     if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
-        Mp = double(funcaoNoTempoNumAnterior)
+        Mp = funcaoNoTempoNumAnterior
         flag = 2;
     end
     if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
