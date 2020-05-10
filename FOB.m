@@ -1,4 +1,4 @@
-function [erro] = FOB(k)
+function [erroPenalizado] = FOB(k)
 syms s;
 % Descomentar abaixo para testes
 % k(1) = 261.3; k(2) = 6015; k(3) = 2.691; k(4) = 0.0004506;
@@ -44,16 +44,16 @@ if(flag == 0)
             break
         end
     end
-    e = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
 end
 if(flag == 1)
-    e=10;
+    erro=10;
 end
 if(flag == 2)
-    e = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
 end
 erroReal = double(0.04 - int(funcaoNoTempo,t,0,0.04))
-erro = e;
+erroPenalizado = erro;
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de
