@@ -53,7 +53,7 @@ if(flag == 2)
     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
 end
 erroReal = real(double(0.04 - int(funcaoNoTempo,t,0,0.04)))
-erroPenalizado = erro;
+erroPenalizado = real(erro);
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de
