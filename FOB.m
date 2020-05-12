@@ -19,6 +19,7 @@ Kp = k(1)
 Ki = k(2)
 Kd = k(3)
 Tf = k(4)
+St = 10;
 for i=0.001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
@@ -26,7 +27,7 @@ for i=0.001:0.0001:0.04
         flag = 1;
     end
     if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
-        Mp = funcaoNoTempoNumAnterior
+        Mp = real(funcaoNoTempoNumAnterior)
         flag = 2;
     end
     if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
@@ -35,9 +36,8 @@ for i=0.001:0.0001:0.04
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;    
 end
-esforcoControleNoTempoMax = subs(esforcoControleNoTempo,0.0001)
+esforcoControleNoTempoMax = real(subs(esforcoControleNoTempo,0.0001))
 if(flag == 0)
-    St = 10;
     for i=0.001:0.0001:0.04
         if funcaoNoTempoNum>=0.98
             St = i;
@@ -52,7 +52,7 @@ end
 if(flag == 2)
     erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
 end
-erroReal = double(0.04 - int(funcaoNoTempo,t,0,0.04))
+erroReal = real(double(0.04 - int(funcaoNoTempo,t,0,0.04)))
 erroPenalizado = erro;
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
