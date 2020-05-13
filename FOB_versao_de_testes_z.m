@@ -1,3 +1,4 @@
+clc; clear all; close all;
 % Essa é uma versão para teste individual da FOB. Para isso os parâmetros
 % são setados e não recebidos como parâmetro
 
@@ -21,6 +22,7 @@ C = Kp + Ki*Ts/(z-1) + Kd/(Tf + Ts/(z-1))
 F = (0.007483*z^8 - 0.02705*z^7 + 0.02133*z^6 + 0.0327*z^5 - 0.06046*z^4 + 0.01575*z^3 + 0.02699*z^2  - 0.0214*z + 0.004658)/(1.007*z^8 - 7.293*z^7 + 23.02*z^6 - 41.37*z^5 + 46.3*z^4 - 33.03*z^3 + 14.66*z^2 - 3.702*z + 0.407)
 
 RespostaDegrau = F*z/(z-1)
+%RespostaDegrau = F*((0.0005*z + 0.0005)/(z-1));
 esforcoControle = RespostaDegrau/Pd
 Kp = 262.2; Ki = 6024; Kd = 2.692; Tf = 0.0005503;
 RespostaDegrauNum = subs(RespostaDegrau)
@@ -43,7 +45,7 @@ esforcoControleNoTempo = vpa(iztrans(esforcoControleNum))
 flag = 0;
 funcaoNoTempoNumAnterior = 0;
 j = 1;
-for i=0.0002:0.0002:0.04
+for i=0.001:0.001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,i);
     esforcoControleNoTempoNum = subs(esforcoControleNoTempo,i);
     if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida

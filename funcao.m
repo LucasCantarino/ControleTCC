@@ -10,7 +10,9 @@ clc; clear all; close all;
 
 % As linhas abaixo são para otimização com base em ag caso não se opte pelo
 % App de otimização
-
-fun = @FOB;
-[k,fval] = ga(fun,4,[],[],[],[],[26,600,0.27,0.000045],[1000,50000,20,0.01])
+tic;
+genalg(4,[26,600,0.27,0.000045],[1000,50000,20,0.01],10,5,10,[261.2875, 6015, 3.6076, 6.3273e-04])
+ tempo = toc;
+%fun = @FOB;
+%[k,fval] = ga(fun,4,[],[],[],[],[26,600,0.27,0.000045],[1000,50000,20,0.01])
 
