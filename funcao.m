@@ -57,11 +57,18 @@ k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[130,3000,1.8,3e-
 % As linhas abaixo são para otimização com base em ag caso não se opte pelo
 % App de otimização
 
-% fun = @FOB;
-% [k,fval] = ga(fun,4,[],[],[],[],[26,600,0.27,0.000045],[1000,50000,20,0.01])
-
-% Utilizando ag com as configurações mostradas nos prints e com o indivíduo
-% inicial [261.2875,6015,3.6076,6.3273e-04], obtemos o resultado abaixo
+% [x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
+[k,fval,exitflag,output,population,score] = agConfig(4,[130,3000,1.8,3e-4],[500,12000,7,0.0015],10,5,10,[261.2903 6015 3.6276 6.3695e-04; 
+                                                                                                         260.2899 6015 3.6115 6.3273e-04; 
+                                                                                                         261.2841 6015 3.6703 6.4511e-04;
+                                                                                                         261.2841 6015 3.6703 6.4509e-04;
+                                                                                                         261.2867 6015 3.6775 6.4650e-04; 
+                                                                                                         261.2867 6015 3.6775 6.4649e-04;
+                                                                                                         260.9981 6015 2.0893 3.0174e-04;
+                                                                                                         261.2879 6015 3.6842 6.4796e-04;
+                                                                                                         261.2879 6015 3.6842 6.4774e-04;
+                                                                                                         261.2879 6015 3.6842 6.4794e-04])
+% Utilizando ag com as configurações acima, obtemos o resultado abaixo
 % como sendo o ótimo
 
 % Kp =
@@ -71,27 +78,27 @@ k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[130,3000,1.8,3e-
 % 
 % Ki =
 % 
-%    6.0150e+03
+%         6015
 % 
 % 
 % Kd =
 % 
-%     3.6115
+%     3.6703
 % 
 % 
 % Tf =
 % 
-%    6.3273e-04
+%    6.4509e-04
 % 
 % 
 % Ts =
 % 
-%     0.0039
+%     0.0038
 % 
 %  
 % Mp =
 %  
-% 1.0809892041848846340681988981329
+% 1.0809187082335011689711732370578
 %  
 % 
 % St =
@@ -101,9 +108,9 @@ k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[130,3000,1.8,3e-
 %  
 % esforcoControleNoTempoMax =
 %  
-% 5110.8840911410805812012360958546
+% 5110.1566242441081663149689396619
 %  
 % 
 % erroReal =
 % 
-%    2.5549e-04
+%    2.6265e-04
