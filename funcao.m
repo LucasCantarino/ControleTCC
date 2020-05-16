@@ -5,9 +5,9 @@ clc; clear all; close all;
 % foram definidos no chute.
 
 % A linha abaixo é para otimizaçao com base em fmincon
-
-k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[130,3000,1.8,3e-4],[500,12000,7,0.0015]);
-
+%tic;
+%k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[130,3000,1.8,3e-4],[500,12000,7,0.0015]);
+%t_fmincon = toc;
 % Abaixo temos o melhor resultado encontrado através de fmincon
 
 % Kp =
@@ -58,16 +58,18 @@ k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[130,3000,1.8,3e-
 % App de otimização
 
 % [x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
-[k,fval,exitflag,output,population,score] = agConfig(4,[130,3000,1.8,3e-4],[500,12000,7,0.0015],10,5,10,[261.2903 6015 3.6276 6.3695e-04; 
-                                                                                                         260.2899 6015 3.6115 6.3273e-04; 
-                                                                                                         261.2841 6015 3.6703 6.4511e-04;
-                                                                                                         261.2841 6015 3.6703 6.4509e-04;
-                                                                                                         261.2867 6015 3.6775 6.4650e-04; 
-                                                                                                         261.2867 6015 3.6775 6.4649e-04;
-                                                                                                         260.9981 6015 2.0893 3.0174e-04;
-                                                                                                         261.2879 6015 3.6842 6.4796e-04;
-                                                                                                         261.2879 6015 3.6842 6.4774e-04;
-                                                                                                         261.2879 6015 3.6842 6.4794e-04])
+tic;
+[k,fval,exitflag,output,population,score] = agConfig(4,[130,3000,1.8,3e-4],[500,12000,7,0.0015],10,5,10),[261.2903 6015 3.6276 6.3695e-04 
+                                                                                                           215.9 6968.5 2.500 0.00001]; 
+                                                                                                         %261.2841 6015 3.6703 6.4511e-04;
+                                                                                                         %261.2841 6015 3.6703 6.4509e-04;
+                                                                                                         %261.2867 6015 3.6775 6.4650e-04; 
+                                                                                                         %261.2867 6015 3.6775 6.4649e-04;
+                                                                                                         %260.9981 6015 2.0893 3.0174e-04;
+                                                                                                         %261.2879 6015 3.6842 6.4796e-04;
+                                                                                                         %261.2879 6015 3.6842 6.4774e-04;
+                                                                                                         %261.2879 6015 3.6842 6.4794e-04])
+t_ag = toc;                                                                                                     
 % Utilizando ag com as configurações acima, obtemos o resultado abaixo
 % como sendo o ótimo
 

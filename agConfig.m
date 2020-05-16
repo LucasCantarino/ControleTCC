@@ -1,4 +1,4 @@
-function [x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
+function [x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data),InitialPopulationMatrix_Data)
 %% This is an auto generated MATLAB file from Optimization Tool.
 
 %% Start with the default options
