@@ -59,8 +59,8 @@ clc; clear all; close all;
 
 % [x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
 tic;
-[k,fval,exitflag,output,population,score] = agConfig(4,[130,3000,1.8,3e-4],[500,12000,7,0.0015],10,5,10),[261.2903 6015 3.6276 6.3695e-04 
-                                                                                                           215.9 6968.5 2.500 0.00001]; 
+[k,fal,exitflag,output,population,score] = agConfig(4,[130,3000,1.8,3e-4],[500,12000,7,0.0015],10,5,10,[261.2903 6015 3.6276 6.3695e-04;
+                                                                                                         215.9 6968.5 2.500 0.00001])     
                                                                                                          %261.2841 6015 3.6703 6.4511e-04;
                                                                                                          %261.2841 6015 3.6703 6.4509e-04;
                                                                                                          %261.2867 6015 3.6775 6.4650e-04; 
@@ -69,7 +69,7 @@ tic;
                                                                                                          %261.2879 6015 3.6842 6.4796e-04;
                                                                                                          %261.2879 6015 3.6842 6.4774e-04;
                                                                                                          %261.2879 6015 3.6842 6.4794e-04])
-t_ag = toc;                                                                                                     
+tempoEmMinutos = toc/60                                                                                                    
 % Utilizando ag com as configurações acima, obtemos o resultado abaixo
 % como sendo o ótimo
 
