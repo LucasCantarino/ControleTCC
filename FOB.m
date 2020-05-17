@@ -3,13 +3,11 @@ syms s;
 % Descomentar abaixo para testes
 % k(1) = 261.3; k(2) = 6015; k(3) = 2.691; k(4) = 0.0004506;
 RespostaDegrau = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1));
-esforcoControle = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1));
 
 % Calculando a inversa de laplace
 
 syms t;
 funcaoNoTempo = vpa(ilaplace(RespostaDegrau,t));
-esforcoControleNoTempo = vpa(ilaplace(esforcoControle,t));
 % A seguir, serão calculados alguns parâmetros que podem servir de base
 % para avaliação da resposta ao degrau
 
@@ -36,7 +34,6 @@ for i=0.001:0.0001:0.04
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;    
 end
-esforcoControleNoTempoMax = real(subs(esforcoControleNoTempo,0.0001))
 if(flag == 0)
     for i=0.001:0.0001:0.04
         if funcaoNoTempoNum>=0.98
@@ -44,13 +41,13 @@ if(flag == 0)
             break
         end
     end
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
 end
 if(flag == 1)
     erro=10;
 end
 if(flag == 2)
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122));
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
 end
 erroReal = real(double(0.04 - int(funcaoNoTempo,t,0,0.04)))
 erroPenalizado = real(erro);
