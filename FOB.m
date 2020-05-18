@@ -1,13 +1,15 @@
-function [erroPenalizado] = FOB(k)
+function [erro] = FOB(k)
 syms s;
 % Descomentar abaixo para testes
 % k(1) = 261.3; k(2) = 6015; k(3) = 2.691; k(4) = 0.0004506;
 RespostaDegrau = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1));
+esforcoControle = (k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/(s*((k(1) + k(2)/s + (k(3)*s)/(k(4)*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1));
 
 % Calculando a inversa de laplace
 
 syms t;
 funcaoNoTempo = vpa(ilaplace(RespostaDegrau,t));
+esforcoControleNoTempo = vpa(ilaplace(esforcoControle,t));
 % A seguir, serão calculados alguns parâmetros que podem servir de base
 % para avaliação da resposta ao degrau
 
@@ -34,6 +36,7 @@ for i=0.001:0.0001:0.04
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;    
 end
+esforcoControleNoTempoMax = real(subs(esforcoControleNoTempo,0.0001))
 if(flag == 0)
     for i=0.001:0.0001:0.04
         if funcaoNoTempoNum>=0.98
@@ -41,16 +44,9 @@ if(flag == 0)
             break
         end
     end
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3));
 end
-if(flag == 1)
-    erro=10;
-end
-if(flag == 2)
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3));
-end
-erroReal = real(double(0.04 - int(funcaoNoTempo,t,0,0.04)))
-erroPenalizado = real(erro);
+erro = double(0.04 - int(funcaoNoTempo,t,0,0.04));
+
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de
@@ -63,4 +59,4 @@ erroPenalizado = real(erro);
 
 % Obs: caso o sistema seja superamortecido, Mp é 0 e St não se aplica. Além
 % disso, o termo exp(St-0.3) é multiplicado por 3 para evitar selecionar
-% sistemas superamortecidos lentos.
+% sistemas superamortecidos lentos
