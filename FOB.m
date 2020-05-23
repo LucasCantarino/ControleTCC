@@ -1,4 +1,4 @@
-function [erro] = FOB(k)
+function [erroPenalizado] = FOB(k)
 syms s;
 % Descomentar abaixo para testes
 % k(1) = 261.3; k(2) = 6015; k(3) = 2.691; k(4) = 0.0004506;
@@ -44,9 +44,16 @@ if(flag == 0)
             break
         end
     end
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
 end
-erro = double(0.04 - int(funcaoNoTempo,t,0,0.04));
-
+if(flag == 1)
+    erro=10
+end
+if(flag == 2)
+    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
+end
+erroReal = real(double(0.04 - int(funcaoNoTempo,t,0,0.04)))
+erroPenalizado = real(erro);
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de
@@ -59,4 +66,4 @@ erro = double(0.04 - int(funcaoNoTempo,t,0,0.04));
 
 % Obs: caso o sistema seja superamortecido, Mp é 0 e St não se aplica. Além
 % disso, o termo exp(St-0.3) é multiplicado por 3 para evitar selecionar
-% sistemas superamortecidos lentos
+% sistemas superamortecidos lentos.
