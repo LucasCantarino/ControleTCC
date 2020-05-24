@@ -1,12 +1,12 @@
 %function  [bestfit,BestPositions,fmin,Convergence_curve]=newBAT(N,Max_iter,lb,ub,dim,FOB)
-%%
+clc; clear all; close all;
 Max_iter=10;            % maximum generations
 N=10;                   %BAT numbers
 dim=4;
 lb=[130,3000,1.8,3e-4];
 ub=[500,12000,7,0.0015];
-Fmax=2;                 %maximum frequency
-Fmin=0;                 %minimum frequency
+Fmax=[5 60 3.5 0.000075];                 %maximum frequency
+Fmin=[0 0 0 0];                 %minimum frequency
 A=rand(N,1);            %loudness for each BAT
 r=rand(N,1);            %pulse emission rate for each BAT
 alpha=0.5;              %constant for loudness update
@@ -28,12 +28,15 @@ end
 [fmin,index]=min(fitness);          %find the initial best fitness value,
 bestsol=x(index,:);                 %find the initial best solution for best fitness value
 %%
-iter=1;             % start the loop counter
-while iter<=Max_iter                               %start the loop for iterations
-    for ii=1:size(x)
-        F(ii)=Fmin+(Fmax-Fmin)*rand;              %randomly chose the frequency
-        v(ii,:)=v(ii,:)+(x(ii,:)-bestsol)*F(ii);  %update the velocity
-        x(ii,:)=x(ii,:)+v(ii,:);                  %update the BAT position
+iter=1;              % start the loop counter
+while iter<=Max_iter                                         %start the loop for iterations
+    for ii=1:size(x)                                            
+        for j=1:4
+            F(ii,j)=Fmin(j)+(Fmax(j)-Fmin(j))*rand;              %randomly chose the frequency
+            v(ii,j)=v(ii,j)+(x(ii,j)-bestsol(j))*F(ii,j);
+            x(ii,j)=x(ii,j)+v(ii,j);                             %update the velocity
+        end
+        %update the BAT position
         %         x(ii,:)=round(x(ii,:));
         % Apply simple bounds/limits
         Flag4up=x(ii,:)>ub;

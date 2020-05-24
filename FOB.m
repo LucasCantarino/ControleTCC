@@ -22,7 +22,7 @@ Tf = k(4)
 St = 10;
 for i=0.001:0.0001:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,i);
-    if (flag == 0 && funcaoNoTempoNum>=1)   % Tempo de subida
+    if (flag == 0 && funcaoNoTempoNum>=1.0)   % Tempo de subida
         Ts = i
         flag = 1;
     end
