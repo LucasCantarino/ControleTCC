@@ -21,7 +21,7 @@ clc; clear all; close all;
 syms Kp; syms Ki; syms Kd; syms Tf; syms s;
 RespostaDegrau = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
 esforcoControle = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
-Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;
+Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;%0.2613    6.0155    0.0020    0.0000
 RespostaDegrauNum = subs(RespostaDegrau)
 esforcoControleNum = subs(esforcoControle)
 % Calculando a inversa de laplace

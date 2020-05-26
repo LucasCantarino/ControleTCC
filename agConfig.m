@@ -10,4 +10,4 @@ options = optimoptions(options,'MaxGenerations', MaxGenerations_Data);
 options = optimoptions(options,'InitialPopulationMatrix', InitialPopulationMatrix_Data);
 options = optimoptions(options,'Display', 'off');
 [x,fval,exitflag,output,population,score] = ...
-ga(@FOB,nvars,[],[],[],[],lb,ub,@nonlcon,[],options);
+ga(@FOB,nvars,[],[],[],[],lb,ub,@restri,[],options);
