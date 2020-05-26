@@ -1,10 +1,4 @@
-%function  [bestfit,BestPositions,fmin,Convergence_curve]=newBAT(N,Max_iter,lb,ub,dim,FOB)
-clc; clear all; close all;
-Max_iter=10;            % maximum generations
-N=10;                   %BAT numbers
-dim=4;
-lb=[130,3000,1.8,3e-4];
-ub=[500,12000,7,0.0015];
+function  [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 Fmax=[5 60 3.5 0.000075];                 %maximum frequency
 Fmin=[0 0 0 0];                 %minimum frequency
 A=rand(N,1);            %loudness for each BAT
@@ -17,7 +11,7 @@ ro=0.001;                 %initial pulse emission rate
 F=zeros(N,1);           % Frequency
 v=zeros(N,dim);           % Velocities
 % Initialize the population
-x=initialization(N,Max_iter,dim,ub,lb);
+x=initializationBat(N,Max_iter,dim,ub,lb);
 Convergence_curve=zeros(1,Max_iter);
 %calculate the initial solution for initial positions
 
@@ -71,4 +65,4 @@ end
 [bestfit]=(fmin)
 BestPositions=bestsol
 
-%end
+end

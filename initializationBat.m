@@ -1,5 +1,5 @@
 % This function initialize the first population of search agents
-function x=initialization(N,Max_iter,dim,ub,lb)
+function x=initializationBat(N,Max_iter,dim,ub,lb)
 
 Boundary_no= size(ub,2); % numnber of boundaries
 
