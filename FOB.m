@@ -37,6 +37,8 @@ for i=0.001:0.0001:0.04
     funcaoNoTempoNumAnterior = funcaoNoTempoNum;    
 end
 esforcoControleNoTempoMax = real(subs(esforcoControleNoTempo,0.0001))
+funcaoErro = (0.04 - funcaoNoTempo)^2;
+erroReal = real(double(int(funcaoErro,t,0,0.04)))
 if(flag == 0)
     for i=0.001:0.0001:0.04
         if funcaoNoTempoNum>=0.98
@@ -44,15 +46,14 @@ if(flag == 0)
             break
         end
     end
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
+    erro = double(erroReal + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
 end
 if(flag == 1)
     erro=10
 end
 if(flag == 2)
-    erro = double(0.04 - int(funcaoNoTempo,t,0,0.04) + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
+    erro = double(erroReal + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
 end
-erroReal = real(double(0.04 - int(funcaoNoTempo,t,0,0.04)))
 erroPenalizado = real(erro);
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.

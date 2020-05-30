@@ -6,7 +6,7 @@ tic;
 
 % A linha abaixo é para otimizaçao com base em fmincon
 
-%k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[130,3000,1.8,3e-4],[500,12000,7,0.0015]);
+% k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[100,2000,1.8,1e-4],[400,8000,7,0.002]);
 
 % Abaixo temos o melhor resultado encontrado através de fmincon
 
@@ -57,25 +57,25 @@ tic;
 % As linhas abaixo são para otimização com base em ag caso não se opte pelo
 % App de otimização
 
-% nvars = 4;
-% lb = [130,3000,1.8,3e-4];
-% ub = [500,12000,7,0.0015];
-% PopulationSize_Data = 10;
-% EliteCount_Data = 5;
-% MaxGenerations_Data = 10;
-% InitialPopulationMatrix_Data = [261.2903 6015 3.6276 6.3695e-04;
-%                                                                                                       261.2903 6015 3.6294 6.3695e-04;
-%                                                                                                       261.2841 6015 3.6703 6.4511e-04;
-%                                                                                                       261.2841 6015 3.6703 6.4509e-04;
-%                                                                                                       261.2867 6015 3.6775 6.4650e-04; 
-%                                                                                                       261.2867 6015 3.6775 6.4649e-04;
-%                                                                                                       260.9981 6015 2.0893 3.0174e-04;
-%                                                                                                       261.2879 6015 3.6842 6.4796e-04;
-%                                                                                                       261.2879 6015 3.6842 6.4774e-04;
-%                                                                                                       261.2879 6015 3.6842 6.4794e-04];
-%                                                                                                       %215.9 6968.5 2.500 0.00001
-% 
-% [x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
+nvars = 4;
+lb = [100,2000,1.8,1e-4];
+ub = [400,8000,7,0.002];
+PopulationSize_Data = 10;
+EliteCount_Data = 5;
+MaxGenerations_Data = 10;
+InitialPopulationMatrix_Data =                                                                       [261.2903 6015 3.6276 6.3695e-04;
+                                                                                                      261.2903 6015 3.6294 6.3695e-04;
+                                                                                                      261.2841 6015 3.6703 6.4511e-04;
+                                                                                                      261.2841 6015 3.6703 6.4509e-04;
+                                                                                                      261.2867 6015 3.6775 6.4650e-04; 
+                                                                                                      261.2867 6015 3.6775 6.4649e-04;
+                                                                                                      260.9981 6015 2.0893 3.0174e-04;
+                                                                                                      261.2879 6015 3.6842 6.4796e-04;
+                                                                                                      261.2879 6015 3.6842 6.4774e-04;
+                                                                                                      261.2879 6015 3.6842 6.4794e-04];
+                                                                                                      %215.9 6968.5 2.500 0.00001
+
+[x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
                                                                                                    
 % Utilizando ag com as configurações acima, obtemos o resultados abaixo 
 % (2 indivíduos)
@@ -210,23 +210,56 @@ tic;
 
 % bat
 
-% Max_iter=10;            % maximum generations
+% Max_iter=30;            % maximum generations
 % N=10;                   %BAT numbers
-% lb=[130,3000,1.8,3e-4];
-% ub=[500,12000,7,0.0015];
+% lb=[100,2000,1.8,1e-4];
+% ub=[400,8000,7,0.002];
 % dim=4;
 % [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 
+% Resultado
+
+% Kp = 143.2133; Ki = 3286.5; Kd = 3.7841; Tf = 0.0011;
+
+% Ts =
+% 
+%     0.0039
+% 
+%  
+% Mp =
+%  
+% 1.10168588562028395761850848855
+%  
+% 
+% St =
+% 
+%     0.0101
+% 
+%  
+% esforcoDeControleMax =
+%  
+% 3275.8897673825109275800557401289
+%  
+% 
+% erroPenalizado =
+% 
+%     2.6105
+% 
+% 
+% erroReal =
+% 
+%    8.9235e-04
+
 % GWO
 
-SearchAgents_no = 10;
-Max_iter = 20;
-lb = [130,3000,1.8,3e-4];
-ub = [500,12000,7,0.0015];
-dim = 4;
-handles = 1;
-Value = 1;
-[Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
+% SearchAgents_no = 10;
+% Max_iter = 30;
+% lb = [100,2000,1.8,1e-4];
+% ub = [400,8000,7,0.002];
+% dim = 4;
+% handles = 1;
+% Value = 1;
+% [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
 % Resultado
 
@@ -260,5 +293,36 @@ Value = 1;
 % erroReal =
 % 
 %    9.5975e-04
+
+
+% Kp = 168.9052; Ki = 3049.6; Kd = 3.6692; Tf = 0.00064447;
+% 
+% Ts =
+% 
+%     0.0043
+% 
+%  
+% Mp =
+%  
+% 1.0418212865610254353993013997555
+%  
+% 
+% St =
+% 
+%     0.0369
+%     
+% esforcoDeControleMax =
+%  
+% 5021.6939034490385246040955027914 - 5.4435683199949144890848676810367e-34i
+%  
+% 
+% erroPenalizado =
+% 
+%    2.5785
+% 
+% 
+% erroReal =
+% 
+%    8.0822e-04
 
 tempoEmMinutos = toc/60 

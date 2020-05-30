@@ -21,7 +21,7 @@ clc; clear all; close all;
 syms Kp; syms Ki; syms Kd; syms Tf; syms s;
 RespostaDegrau = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
 esforcoControle = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
-Kp = 261.3; Ki = 6015; Kd = 2.691; Tf = 0.0004506;%0.2613    6.0155    0.0020    0.0000
+Kp = 110.7135; Ki = 2191; Kd = 3.781; Tf = 0.0014;
 RespostaDegrauNum = subs(RespostaDegrau)
 esforcoControleNum = subs(esforcoControle)
 % Calculando a inversa de laplace
@@ -62,6 +62,9 @@ figure
 plot(vetorTempo,EsforcoControleNoTempoVetor)
 
 esforcoDeControleMax = EsforcoControleNoTempoVetor(1)
+funcaoErro = (0.04 - funcaoNoTempo)^2;
+erroReal = real(double(int(funcaoErro,t,0,0.04)))
+
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo
 
@@ -73,15 +76,14 @@ if(flag == 0)
             break
         end
     end 
-    erroPenalizado = double(0.04 - int(funcaoNoTempo,t,0,0.04) + 3*exp(St-0.3) + exp(esforcoDeControleMax-5122))
+    erroPenalizado = double(erroReal + 3*exp(St-0.3) + exp(esforcoDeControleMax-5122))
 end
 if(flag == 1)
     erroPenalizado=10
 end
 if(flag == 2) 
-    erroPenalizado = double(0.04 - int(funcaoNoTempo,t,0,0.04)+ exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)  + exp(esforcoDeControleMax-5122))
+    erroPenalizado = double(erroReal + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)  + exp(esforcoDeControleMax-5122))
 end
-erroReal = double(0.04 - int(funcaoNoTempo,t,0,0.04))
 % O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de

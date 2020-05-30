@@ -1,5 +1,5 @@
 function  [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
-Fmax=[5 60 3.5 0.000075];                 %maximum frequency
+Fmax=[3 60 0.0052 0.00002];                 %maximum frequency
 Fmin=[0 0 0 0];                 %minimum frequency
 A=rand(N,1);            %loudness for each BAT
 r=rand(N,1);            %pulse emission rate for each BAT
