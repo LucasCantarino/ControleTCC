@@ -21,7 +21,7 @@ clc; clear all; close all;
 syms Kp; syms Ki; syms Kd; syms Tf; syms s;
 RespostaDegrau = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
 esforcoControle = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
-Kp = 110.7135; Ki = 2191; Kd = 3.781; Tf = 0.0014;
+Kp = 261.2743; Ki = 6015; Kd = 6.9832; Tf = 0.0013;
 RespostaDegrauNum = subs(RespostaDegrau)
 esforcoControleNum = subs(esforcoControle)
 % Calculando a inversa de laplace
@@ -64,26 +64,27 @@ plot(vetorTempo,EsforcoControleNoTempoVetor)
 esforcoDeControleMax = EsforcoControleNoTempoVetor(1)
 funcaoErro = (0.04 - funcaoNoTempo)^2;
 erroReal = real(double(int(funcaoErro,t,0,0.04)))
+erroPenalizado = double(4000*erroReal + exp(esforcoDeControleMax-5122))
 
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo
 
-if(flag == 0)
-    St = 10;
-    for i=0.001:0.0001:0.04
-        if funcaoNoTempoNum>=0.98
-            St = i
-            break
-        end
-    end 
-    erroPenalizado = double(erroReal + 3*exp(St-0.3) + exp(esforcoDeControleMax-5122))
-end
-if(flag == 1)
-    erroPenalizado=10
-end
-if(flag == 2) 
-    erroPenalizado = double(erroReal + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)  + exp(esforcoDeControleMax-5122))
-end
+% if(flag == 0)
+%     St = 10;
+%     for i=0.001:0.0001:0.04
+%         if funcaoNoTempoNum>=0.98
+%             St = i
+%             break
+%         end
+%     end 
+%     erroPenalizado = double(erroReal + 3*exp(St-0.3) + exp(esforcoDeControleMax-5122))
+% end
+% if(flag == 1)
+%     erroPenalizado=10
+% end
+% if(flag == 2) 
+%     erroPenalizado = double(erroReal + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3)  + exp(esforcoDeControleMax-5122))
+% end
 % O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de

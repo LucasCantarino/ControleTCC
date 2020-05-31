@@ -1,4 +1,4 @@
-function [erroPenalizado] = FOB(k)
+function [erro] = FOB(k)
 syms s;
 % Descomentar abaixo para testes
 % k(1) = 261.3; k(2) = 6015; k(3) = 2.691; k(4) = 0.0004506;
@@ -20,41 +20,45 @@ Ki = k(2)
 Kd = k(3)
 Tf = k(4)
 St = 10;
-for i=0.001:0.0001:0.04
+j =1;
+for i=0.0002:0.0002:0.04
     funcaoNoTempoNum = subs(funcaoNoTempo,i);
-    if (flag == 0 && funcaoNoTempoNum>=1.0)   % Tempo de subida
-        Ts = i
-        flag = 1;
-    end
-    if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
-        Mp = real(funcaoNoTempoNumAnterior)
-        flag = 2;
-    end
-    if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
-        St = i
-        break
-    end
-    funcaoNoTempoNumAnterior = funcaoNoTempoNum;    
+    erroParcial(j) = (1 - funcaoNoTempoNum)^2;
+    j = j + 1;
 end
 esforcoControleNoTempoMax = real(subs(esforcoControleNoTempo,0.0001))
-funcaoErro = (0.04 - funcaoNoTempo)^2;
-erroReal = real(double(int(funcaoErro,t,0,0.04)))
-if(flag == 0)
-    for i=0.001:0.0001:0.04
-        if funcaoNoTempoNum>=0.98
-            St = i;
-            break
-        end
-    end
-    erro = double(erroReal + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
-end
-if(flag == 1)
-    erro=10
-end
-if(flag == 2)
-    erro = double(erroReal + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
-end
-erroPenalizado = real(erro);
+erroTotal = sum(erroParcial)
+erroPenalizado = double(erroTotal + exp(esforcoControleNoTempoMax-5122))
+erro = erroPenalizado;
+% if (flag == 0 && funcaoNoTempoNum>=1.0)   % Tempo de subida
+%         Ts = i
+%         flag = 1;
+%     end
+%     if (flag == 1 && funcaoNoTempoNum<funcaoNoTempoNumAnterior) % Máximo sobressinal
+%         Mp = real(funcaoNoTempoNumAnterior)
+%         flag = 2;
+%     end
+%     if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
+%         St = i
+%         break
+%     end
+%     funcaoNoTempoNumAnterior = funcaoNoTempoNum;
+% if(flag == 0)
+%     for i=0.001:0.0001:0.04
+%         if funcaoNoTempoNum>=0.98
+%             St = i;
+%             break
+%         end
+%     end
+%     erro = double(erroReal + 3*exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
+% end
+% if(flag == 1)
+%     erro=10
+% end
+% if(flag == 2)
+%     erro = double(erroReal + exp(Ts-0.05) + exp(Mp-1.2) + exp(St-0.3) + exp(esforcoControleNoTempoMax-5122))
+% end
+%erroPenalizado = real(erro);
 %O erro é calculado como diferença entre o degrau de referência e a
 % integral da função da resposta ao degrau d tempo t = 0 até o tempo t = 0.04.
 % Poré, a função de erro acima foi definida levando em consideração tempo de
@@ -68,3 +72,4 @@ erroPenalizado = real(erro);
 % Obs: caso o sistema seja superamortecido, Mp é 0 e St não se aplica. Além
 % disso, o termo exp(St-0.3) é multiplicado por 3 para evitar selecionar
 % sistemas superamortecidos lentos.
+

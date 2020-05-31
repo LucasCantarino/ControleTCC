@@ -12,7 +12,7 @@ tic;
 
 % Kp =
 % 
-%   261.2903
+%   261.2894
 % 
 % 
 % Ki =
@@ -22,60 +22,51 @@ tic;
 % 
 % Kd =
 % 
-%     3.6276
+%     4.3721
 % 
 % 
 % Tf =
 % 
-%    6.3695e-04
-% 
-% 
-% Ts =
-% 
-%     0.0039
-% 
-%  
-% Mp =
-%  
-% 1.0813778434162163505916093783053
-%  
-% 
-% St =
-% 
-%     0.0340
+%    7.9539e-04
 % 
 %  
 % esforcoControleNoTempoMax =
 %  
-% 5106.2981337423424129458159427797
+% 5087.0585558824610788923410865623
+%  
+%  
+% erroTotal =
+%  
+% 5.4030057772876995059020557413495
 %  
 % 
-% erroReal =
+% erroPenalizado =
 % 
-%    2.5670e-04
+%    5.4030
+
 
 % As linhas abaixo são para otimização com base em ag caso não se opte pelo
 % App de otimização
 
-nvars = 4;
-lb = [100,2000,1.8,1e-4];
-ub = [400,8000,7,0.002];
-PopulationSize_Data = 10;
-EliteCount_Data = 5;
-MaxGenerations_Data = 10;
-InitialPopulationMatrix_Data =                                                                       [261.2903 6015 3.6276 6.3695e-04;
-                                                                                                      261.2903 6015 3.6294 6.3695e-04;
-                                                                                                      261.2841 6015 3.6703 6.4511e-04;
-                                                                                                      261.2841 6015 3.6703 6.4509e-04;
-                                                                                                      261.2867 6015 3.6775 6.4650e-04; 
-                                                                                                      261.2867 6015 3.6775 6.4649e-04;
-                                                                                                      260.9981 6015 2.0893 3.0174e-04;
-                                                                                                      261.2879 6015 3.6842 6.4796e-04;
-                                                                                                      261.2879 6015 3.6842 6.4774e-04;
-                                                                                                      261.2879 6015 3.6842 6.4794e-04];
-                                                                                                      %215.9 6968.5 2.500 0.00001
-
-[x,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
+% nvars = 4;
+% lb = [100,2000,1.8,1e-4];
+% ub = [400,8000,7,0.002];
+% PopulationSize_Data = 10;
+% EliteCount_Data = 5;
+% MaxGenerations_Data = 10;
+% InitialPopulationMatrix_Data =                                                                       [261.2903 6015 3.6276 6.3695e-04;
+%                                                                                                       261.2903 6015 3.6294 6.3695e-04;
+%                                                                                                       261.2841 6015 3.6703 6.4511e-04;
+%                                                                                                       261.2841 6015 3.6703 6.4509e-04;
+%                                                                                                       261.2867 6015 3.6775 6.4650e-04; 
+%                                                                                                       261.2867 6015 3.6775 6.4649e-04;
+%                                                                                                       260.9981 6015 2.0893 3.0174e-04;
+%                                                                                                       261.2879 6015 3.6842 6.4796e-04;
+%                                                                                                       261.2879 6015 3.6842 6.4774e-04;
+%                                                                                                       261.2879 6015 3.6842 6.4794e-04];
+%                                                                                                       %215.9 6968.5 2.500 0.00001
+% 
+% [k,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
                                                                                                    
 % Utilizando ag com as configurações acima, obtemos o resultados abaixo 
 % (2 indivíduos)
@@ -210,12 +201,12 @@ InitialPopulationMatrix_Data =                                                  
 
 % bat
 
-% Max_iter=30;            % maximum generations
-% N=10;                   %BAT numbers
-% lb=[100,2000,1.8,1e-4];
-% ub=[400,8000,7,0.002];
-% dim=4;
-% [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
+Max_iter=10;            % maximum generations
+N=10;                   %BAT numbers
+lb=[100,2000,1.8,1e-4];
+ub=[400,8000,7,0.002];
+dim=4;
+[bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 
 % Resultado
 
