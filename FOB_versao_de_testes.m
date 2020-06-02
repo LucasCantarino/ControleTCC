@@ -62,9 +62,9 @@ figure
 plot(vetorTempo,EsforcoControleNoTempoVetor)
 
 esforcoDeControleMax = EsforcoControleNoTempoVetor(1)
-funcaoErro = (0.04 - funcaoNoTempo)^2;
+funcaoErro = (1 - funcaoNoTempo)^2;
 erroReal = real(double(int(funcaoErro,t,0,0.04)))
-erroPenalizado = double(4000*erroReal + exp(esforcoDeControleMax-5122))
+erroPenalizado = double(erroReal + exp(esforcoDeControleMax-5122))
 
 % Caso o sistema controlado possa ser superamortecido, descomentar as
 % linhas abaixo

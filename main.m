@@ -4,9 +4,18 @@ tic;
 % 0.6 no código "controle" para a planta contínua P. Os valores máximos
 % foram definidos no chute.
 
-% A linha abaixo é para otimizaçao com base em fmincon
+% As linhas abaixo são para otimizaçao com base em fmincon
 
-% k = fmincon(@FOB,[261.2903,6015,3.6276,6.3695e-04],[],[],[],[],[100,2000,1.8,1e-4],[400,8000,7,0.002]);
+% fun = @FOB;
+% x0 = [261.2903,6015,3.6276,6.3695e-04];
+% a = [];
+% b = [];
+% Aeq = [];
+% Beq = [];
+% lb = [100,2000,1.8,1e-4];
+% ub = [400,8000,7,0.002];
+% 
+% k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
 % Abaixo temos o melhor resultado encontrado através de fmincon
 
@@ -201,14 +210,14 @@ tic;
 
 % bat
 
-% Max_iter=10;            % maximum generations
+% Max_iter=30;            % maximum generations
 % N=10;                   %BAT numbers
 % lb=[100,2000,1.8,1e-4];
 % ub=[400,8000,7,0.002];
 % dim=4;
 % [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 
-% Resultado
+% Resultados
 
 % Kp = 143.2133; Ki = 3286.5; Kd = 3.7841; Tf = 0.0011;
 
@@ -241,6 +250,36 @@ tic;
 % 
 %    8.9235e-04
 
+% Kp = 296.6434; Ki = 7701.3; Kd = 5.4887; Tf = 0.0012;
+% 
+% Ts =
+% 
+%     0.0028
+% 
+%  
+% Mp =
+%  
+% 1.2098994021513393913643733500394
+%  
+% 
+% St =
+% 
+%     0.0075
+%     
+% esforcoDeControleMax =
+%  
+% 4489.2629311213630248598306536149
+%  
+% 
+% erroReal =
+% 
+%     0.0012
+% 
+% 
+% erroPenalizado =
+% 
+%    0.0012
+
 % GWO
 
 SearchAgents_no = 10;
@@ -252,7 +291,38 @@ handles = 1;
 Value = 1;
 [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
-% Resultado
+% Resultados
+
+% Kp = 178.7389; Ki = 2666.5; Kd = 5.2654; Tf = 0.0012;
+% 
+% Ts =
+% 
+%     0.0030
+% 
+%  
+% Mp =
+%  
+% 1.1664747493229379805990908214121
+%  
+% 
+% St =
+% 
+%     0.0073
+%     
+% esforcoDeControleMax =
+%  
+% 4201.6461479746845287254750211585
+%  
+% 
+% erroReal =
+% 
+%     0.0012
+% 
+% 
+% erroPenalizado =
+% 
+%     0.0012
+
 
 % Kp = 137.8763; Ki = 3237.9; Kd = 4.0726; Tf = 0.00072595;
 
@@ -284,68 +354,5 @@ Value = 1;
 % erroReal =
 % 
 %    9.5975e-04
-
-
-% Kp = 168.9052; Ki = 3049.6; Kd = 3.6692; Tf = 0.00064447;
-% 
-% Ts =
-% 
-%     0.0043
-% 
-%  
-% Mp =
-%  
-% 1.0418212865610254353993013997555
-%  
-% 
-% St =
-% 
-%     0.0369
-%     
-% esforcoDeControleMax =
-%  
-% 5021.6939034490385246040955027914 - 5.4435683199949144890848676810367e-34i
-%  
-% 
-% erroPenalizado =
-% 
-%    2.5785
-% 
-% 
-% erroReal =
-% 
-%    8.0822e-04
-
-% Setando os valores iniciais:
-% %Kp = 163.8836; Ki = 2.5622e+03; Kd = 5.8904; Tf = 0.0011;
-% 
-% esforcoDeControleMax =
-%  
-% 5032.8520767551168104328374362728
-%  
-% 
-% erroReal =
-% 
-%     0.0362
-% 
-% 
-% erroPenalizado =
-% 
-%     144.7241
-%
-% Ts =
-% 
-%     0.0028
-% 
-%  
-% Mp =
-%  
-%     1.1598
-%  
-% 
-% St =
-% 
-%     0.04
-
 
 tempoEmMinutos = toc/60 

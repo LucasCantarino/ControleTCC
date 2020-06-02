@@ -45,6 +45,10 @@ while iter<=Max_iter                                         %start the loop for
         end
         fitnessnew=FOB(x(ii,:));  % calculate the objective function
         % Update if the solution improves, or not too loud
+        plot(iter,fitnessnew,'k.');
+        axis([0 30 0 150]);
+        drawnow;
+        hold on;
         if (fitnessnew<=fitness(ii)) && (rand<A(ii)) ,
             
             fitness(ii)=fitnessnew;
@@ -54,11 +58,9 @@ while iter<=Max_iter                                         %start the loop for
         if fitnessnew<=fmin,
             bestsol=x(ii,:);
             fmin=fitnessnew;
-        end
-        
+        end    
     end
     Convergence_curve(iter)=  fmin;
-    
     iter=iter+1;                                  % update the while loop counter
 end
 %
