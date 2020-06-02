@@ -201,12 +201,12 @@ tic;
 
 % bat
 
-Max_iter=10;            % maximum generations
-N=10;                   %BAT numbers
-lb=[100,2000,1.8,1e-4];
-ub=[400,8000,7,0.002];
-dim=4;
-[bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
+% Max_iter=10;            % maximum generations
+% N=10;                   %BAT numbers
+% lb=[100,2000,1.8,1e-4];
+% ub=[400,8000,7,0.002];
+% dim=4;
+% [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 
 % Resultado
 
@@ -243,14 +243,14 @@ dim=4;
 
 % GWO
 
-% SearchAgents_no = 10;
-% Max_iter = 30;
-% lb = [100,2000,1.8,1e-4];
-% ub = [400,8000,7,0.002];
-% dim = 4;
-% handles = 1;
-% Value = 1;
-% [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
+SearchAgents_no = 10;
+Max_iter = 30;
+lb = [100,2000,1.8,1e-4];
+ub = [400,8000,7,0.002];
+dim = 4;
+handles = 1;
+Value = 1;
+[Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
 % Resultado
 
@@ -315,5 +315,37 @@ dim=4;
 % erroReal =
 % 
 %    8.0822e-04
+
+% Setando os valores iniciais:
+% %Kp = 163.8836; Ki = 2.5622e+03; Kd = 5.8904; Tf = 0.0011;
+% 
+% esforcoDeControleMax =
+%  
+% 5032.8520767551168104328374362728
+%  
+% 
+% erroReal =
+% 
+%     0.0362
+% 
+% 
+% erroPenalizado =
+% 
+%     144.7241
+%
+% Ts =
+% 
+%     0.0028
+% 
+%  
+% Mp =
+%  
+%     1.1598
+%  
+% 
+% St =
+% 
+%     0.04
+
 
 tempoEmMinutos = toc/60 

@@ -21,7 +21,7 @@ clc; clear all; close all;
 syms Kp; syms Ki; syms Kd; syms Tf; syms s;
 RespostaDegrau = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1)*(s/8 + 1)*((11*s)/200 + 1))
 esforcoControle = (Kp + Ki/s + (Kd*s)/(Tf*s + 1))/(s*((Kp + Ki/s + (Kd*s)/(Tf*s + 1))/((s/8 + 1)*((11*s)/200 + 1)) + 1))
-Kp = 261.2743; Ki = 6015; Kd = 6.9832; Tf = 0.0013;
+Kp = 178.7389; Ki = 2666.5; Kd = 5.2654; Tf = 0.0012;
 RespostaDegrauNum = subs(RespostaDegrau)
 esforcoControleNum = subs(esforcoControle)
 % Calculando a inversa de laplace
@@ -48,7 +48,7 @@ for i=0.0001:0.0001:0.04
     end
     if (flag == 2 && funcaoNoTempoNum<=1.02) % Tempo de acomodação
         St = i
-        break
+        flag = 3;
     end
     funcaoNoTempoNumAnterior = funcaoNoTempoNum; 
     funcaoNoTempoVetor(j) = funcaoNoTempoNum;
