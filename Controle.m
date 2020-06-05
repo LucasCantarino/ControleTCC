@@ -77,17 +77,29 @@ Pd = c2d(P,dt,'tustin')
 C = 178.7389 + tf(2666.5,[1,0]) + tf([5.2654,0],[0.0012,1])
 Cd = c2d(C,dt,'tustin')
 G = feedback(Cd*Pd,1)
-degrauContinuo = tf(1,[1 0]);
-degrauDiscreto = c2d(degrauContinuo,dt,'tustin')
-respostaDegrau = G*degrauDiscreto
-esforcoControle = respostaDegrau/Pd
-[num,den] = tfdata(esforcoControle);
-syms z;
-esforcoControleSym = poly2sym(cell2mat(num),z)/poly2sym(cell2mat(den),z)
-esforcoControleNoTempo = vpa(iztrans(esforcoControleSym,t))
+
+% degrauContinuo = tf(1,[1 0]);
+% degrauDiscreto = c2d(degrauContinuo,dt,'tustin')
+% respostaDegrau = G*degrauDiscreto
+% esforcoControle = respostaDegrau/Pd
 % [num,den] = tfdata(esforcoControle);
-% syms z;
-% esforcoControleSym = poly2sym(cell2mat(num),z)/poly2sym(cell2mat(den),z)
+% [r,p,k] = residue(num{1,1},den{1,1})
+% for i = 1:7
+%     fracoesParciais(i) = tf([r(i) 0],[1 -p(i)],dt);
+%     [num(i),den(i)] = tfdata(fracoesParciais(i));
+% end
+% fracoesParciais(i+1) = K;
+% fracoesParciais
+% syms n;
+% for i = 1:7
+%     a = den{i,1}(1,2)
+%     K = num{i,1}(1)
+%     for n = -2:-1:-201 % u[-n-1] de 1 até 200 (0.0002s a 0.04s)
+%             esforcoControleNoTempo(i,-n-1) = K * a^n  
+%     end
+% end
+
+
 t = 0:dt:0.05;
 u = ones(size(t));
 
@@ -97,8 +109,6 @@ plot(t,L)
 M = lsim(esforcoControleNoTempo,u,t);
 figure;
 plot(t,M)
-% Utilizar PIDF com response time = 0.004915 e transient behaviour =
-% 0.6 (esforço máximo de 5122)
 
 
 
