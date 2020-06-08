@@ -100,12 +100,15 @@ for i = 7:-1:2
 end
 esforcoControleNoTempo(1) = k;
 t = 0:dt:0.02;
-u = ones(size(t));
-L = lsim(Gd,u,t);
+%u = ones(size(t));
+%L = lsim(Gd,u,t);
 figure;
-plot(t,L,'o');
+%plot(t,L,'o');
+step(Gd,t)
 figure;
-plot(t,esforcoControleNoTempo,'o');
+%plot(t,esforcoControleNoTempo,'o');
+step(Cd/(1+(Cd*Pd)),t)
+
 
 
 
