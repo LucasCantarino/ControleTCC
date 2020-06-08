@@ -88,8 +88,8 @@ syms n;
 for i = 1:7
     a = -den{1,i}(1,2);
     K = num{1,i}(1);
-    for n = 1:20 %(0.001s a 0.02s)
-        esforcoControleNoTempo(i,n) = K * a^n;  
+    for n = 0:20 %(0s a 0.02s)
+        esforcoControleNoTempo(i,n+1) = K * a^n;  
     end
 end
 for n =1:20
@@ -98,8 +98,8 @@ end
 for i = 7:-1:2
     esforcoControleNoTempo(i,:) = [];
 end
-esforcoControleNoTempo
-t = dt:dt:0.02;
+esforcoControleNoTempo(1) = k;
+t = 0:dt:0.02;
 u = ones(size(t));
 L = lsim(Gd,u,t);
 figure;
