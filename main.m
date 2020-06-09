@@ -291,68 +291,48 @@ handles = 1;
 Value = 1;
 [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
-% Resultados
-
-% Kp = 178.7389; Ki = 2666.5; Kd = 5.2654; Tf = 0.0012;
+% Kp =
+% 
+%   128.5694
+% 
+% 
+% Ki =
+% 
+%    3.4236e+03
+% 
+% 
+% Kd =
+% 
+%     6.4898
+% 
+% 
+% Tf =
+% 
+%    5.5823e-04
+% 
 % 
 % Ts =
 % 
-%     0.0030
+%     0.0020
 % 
-%  
+% 
 % Mp =
-%  
-% 1.1664747493229379805990908214121
-%  
+% 
+%     1.0899
+% 
 % 
 % St =
 % 
-%     0.0073
-%     
-% esforcoDeControleMax =
-%  
-% 4201.6461479746845287254750211585
-%  
+%     0.0050
 % 
-% erroReal =
 % 
-%     0.0012
+% erroTotal =
+% 
+%     0.8037
 % 
 % 
 % erroPenalizado =
 % 
-%     0.0012
-
-
-% Kp = 137.8763; Ki = 3237.9; Kd = 4.0726; Tf = 0.00072595;
-
-% Ts =
-% 
-%     0.0039
-% 
-%  
-% Mp =
-%  
-% 1.0414522806710464051090834029733
-%  
-% 
-% St =
-% 
-%     0.0080
-% 
-%  
-% esforcoDeControleMax =
-%  
-% 5004.361054775815223294892741739
-%  
-% 
-% erroPenalizado =
-% 
-%     2.5561
-% 
-% 
-% erroReal =
-% 
-%    9.5975e-04
+%     0.8037
 
 tempoEmMinutos = toc/60 

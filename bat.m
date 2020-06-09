@@ -46,7 +46,7 @@ while iter<=Max_iter                                         %start the loop for
         fitnessnew=FOB(x(ii,:));  % calculate the objective function
         % Update if the solution improves, or not too loud
         plot(iter,fitnessnew,'k.');
-        axis([0 30 0 150]);
+        axis([0 30 0 3]);
         drawnow;
         hold on;
         if (fitnessnew<=fitness(ii)) && (rand<A(ii)) ,

@@ -67,11 +67,13 @@ Pd = c2d(P,dt,'tustin')
 
 % Utilizar PIDF com response time = 0.004915 e transient behaviour =
 % 0.6 (esforço máximo de 5122)
-
-C = 178.7389 + tf(2666.5,[1,0]) + tf([5.2654,0],[0.0012,1])
-Cd = c2d(C,dt,'tustin')
-Gd = feedback(Cd*Pd,1)
-
+Kp = 128.5694
+Ki = 3423.6
+Kd = 6.4898
+Tf = 5.5823e-04
+C = Kp + tf(Ki,[1,0]) + tf([Kd,0],[Tf,1]);
+Cd = c2d(C,dt,'tustin');
+Gd = feedback(Cd*Pd,1);
 t = 0:dt:0.02;
 respostaDegrau = step(Gd,t)';
 figure;
@@ -79,7 +81,27 @@ step(Gd,t);
 esforcoControle = step(Cd/(1+(Cd*Pd)),t)';
 figure;
 step(Cd/(1+(Cd*Pd)),t);
-
+flag =0;
+St = 10;
+respostaDegrauAnterior = 0;
+for i = 1:21
+    if (flag ==0 && respostaDegrau(i)>=1)
+        Ts = (i-1)/1000
+        flag =1;
+    end
+    if (flag ==1 && respostaDegrauAnterior>respostaDegrau(i))
+        Mp = respostaDegrauAnterior
+        flag = 2;
+    end
+    if (flag ==2 && respostaDegrau(i)<=1.02)
+        St = (i-1)/1000
+        flag = 3;
+    end
+    respostaDegrauAnterior = respostaDegrau(i);
+    erroParcial(i) = (1 - respostaDegrau(i))^2;
+end
+erroTotal = sum(erroParcial) 
+erroPenalizado = erroTotal + exp(esforcoControle(1)-5122)
 
 
 
