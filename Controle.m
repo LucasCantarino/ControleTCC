@@ -72,42 +72,13 @@ C = 178.7389 + tf(2666.5,[1,0]) + tf([5.2654,0],[0.0012,1])
 Cd = c2d(C,dt,'tustin')
 Gd = feedback(Cd*Pd,1)
 
-degrauContinuo = tf(1,[1 0]);
-degrauDiscreto = c2d(degrauContinuo,dt,'tustin')
-respostaDegrau = Gd*degrauDiscreto
-esforcoControle = respostaDegrau/Pd
-[num,den] = tfdata(esforcoControle);
-[r,p,k] = residue(num{1,1},den{1,1})
-for i = 1:7
-    fracoesParciais(i) = tf([r(i) 0],[1 -p(i)],dt);
-    [num(i),den(i)] = tfdata(fracoesParciais(i));
-end
-fracoesParciais(i+1) = k;
-fracoesParciais
-syms n;
-for i = 1:7
-    a = -den{1,i}(1,2);
-    K = num{1,i}(1);
-    for n = 0:20 %(0s a 0.02s)
-        esforcoControleNoTempo(i,n+1) = K * a^n;  
-    end
-end
-for n =1:20
-    esforcoControleNoTempo(1,n) = sum(esforcoControleNoTempo(:,n));
-end
-for i = 7:-1:2
-    esforcoControleNoTempo(i,:) = [];
-end
-esforcoControleNoTempo(1) = k;
 t = 0:dt:0.02;
-%u = ones(size(t));
-%L = lsim(Gd,u,t);
+respostaDegrau = step(Gd,t)';
 figure;
-%plot(t,L,'o');
-step(Gd,t)
+step(Gd,t);
+esforcoControle = step(Cd/(1+(Cd*Pd)),t)';
 figure;
-%plot(t,esforcoControleNoTempo,'o');
-step(Cd/(1+(Cd*Pd)),t)
+step(Cd/(1+(Cd*Pd)),t);
 
 
 
