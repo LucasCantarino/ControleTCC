@@ -40,7 +40,7 @@ while l<Max_iter
     for i=1:size(Positions,1)             
         
         % Calculate objective function for each search agent
-        fitness=FOB(Positions(i,:));
+        fitness=FOB_malha_interna(Positions(i,:));
         All_fitness(1,i)=fitness;
         
         % Update Alpha, Beta, and Delta

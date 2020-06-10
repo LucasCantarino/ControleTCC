@@ -30,12 +30,13 @@ plot(t,vR)
 %controlador para degrau maximo de 1,152 (pwm de 355) e response time 0.111
 KpL = 308.2;
 KiL = 1540;
-
-KpR = 353.5;
-KiR = 1766;
-
-PID_L = KpL*tf(1,1) + KiL*tf(1,[1 0]);
-PID_R = KpR*tf(1,1) + KiR*tf(1,[1 0]);
+Kp = 573.1442020899968; Ki = 8337.572754249553;
+% KpR = 353.5;
+% KiR = 1766;
+KpR = 346.2170223511150;
+KiR = 17601.68152319115;
+PID_L = KpL + KiL*tf(1,[1 0]);
+PID_R = KpR + KiR*tf(1,[1 0]);
 
 PID_Ld = c2d(PID_L,dt,'tustin');
 PID_Rd = c2d(PID_R,dt,'tustin');
@@ -43,15 +44,13 @@ PID_Rd = c2d(PID_R,dt,'tustin');
 MalhaInternaLd = feedback(PID_Ld*G_Ld,1);
 MalhaInternaRd = feedback(PID_Rd*G_Rd,1);
 
-t = 0:dt:0.4;
-u = ones(size(t));
 vL_pid = lsim(MalhaInternaLd,0.001*u,t);
 vR_pid = lsim(MalhaInternaRd,0.001*u,t);
 
 figure
-plot(t,vL_pid,'bo')
+plot(t,vL_pid,'b')
 hold on
-plot(t,vR_pid,'ro')
+plot(t,vR_pid,'r')
 
 % Aceleração
 % a(1) = 0; 
