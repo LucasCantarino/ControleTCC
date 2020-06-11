@@ -40,7 +40,7 @@ while l<Max_iter
     for i=1:size(Positions,1)             
         
         % Calculate objective function for each search agent
-        fitness=FOB(Positions(i,:));
+        fitness=FOB_malha_interna(Positions(i,:));
         All_fitness(1,i)=fitness;
         
         % Update Alpha, Beta, and Delta
@@ -107,7 +107,7 @@ while l<Max_iter
     Convergence_curve(l)=Alpha_score;
     if l>1
         line([l-1 l], [Convergence_curve(l-1) Convergence_curve(l)],'Color','b')
-        axis([0 30 0 3]);
+        axis([0 150 0 50]);
         xlabel('Iteration');
         ylabel('Best score obtained so far');        
         drawnow

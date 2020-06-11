@@ -158,12 +158,12 @@ tic;
 
 SearchAgents_no = 10;
 Max_iter = 150;
-lb=[300,18000];
-ub=[400,25000];
-dim = 2;
+lb=[150,800,0,0];
+ub=[700,20000,100,1];
+dim = 4;
 handles = 1;
 Value = 1;
-[Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
+[Alpha_score,Alpha_pos,Convergence_curve]=GWO_malha_interna(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
 % Kp =
 %   345.9343997357137

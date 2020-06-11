@@ -30,13 +30,15 @@ plot(t,vR)
 %controlador para degrau maximo de 1,152 (pwm de 355) e response time 0.111
 KpL = 308.2;
 KiL = 1540;
-Kp = 573.1442020899968; Ki = 8337.572754249553;
-% KpR = 353.5;
-% KiR = 1766;
-KpR = 346.2170223511150;
-KiR = 17601.68152319115;
+KpR = 353.5;
+KiR = 1766;
+% KpR = 354.1229;    % PIDF
+% KiR = 1841.178;
+% KdR = 9.5987;
+% TfR = 0.268;
+
 PID_L = KpL + KiL*tf(1,[1 0]);
-PID_R = KpR + KiR*tf(1,[1 0]);
+PID_R = KpR + KiR*tf(1,[1 0]); %+ tf([KdR,0],[TfR,1]); PIDF
 
 PID_Ld = c2d(PID_L,dt,'tustin');
 PID_Rd = c2d(PID_R,dt,'tustin');
@@ -44,6 +46,8 @@ PID_Rd = c2d(PID_R,dt,'tustin');
 MalhaInternaLd = feedback(PID_Ld*G_Ld,1);
 MalhaInternaRd = feedback(PID_Rd*G_Rd,1);
 
+t = 0:dt:0.5;
+u = 1000*ones(size(t));
 vL_pid = lsim(MalhaInternaLd,0.001*u,t);
 vR_pid = lsim(MalhaInternaRd,0.001*u,t);
 
@@ -52,6 +56,12 @@ plot(t,vL_pid,'b')
 hold on
 plot(t,vR_pid,'r')
 
+RespostaDegrauL = MalhaInternaLd/G_Ld;
+RespostaDegrauR = MalhaInternaLd/G_Rd;
+figure
+step(RespostaDegrauL,t);
+hold on;
+step(RespostaDegrauR,t);
 % Aceleração
 % a(1) = 0; 
 % for i=2:length(t)

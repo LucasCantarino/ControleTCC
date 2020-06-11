@@ -282,14 +282,14 @@ tic;
 
 % GWO
 
-% SearchAgents_no = 10;
-% Max_iter = 30;
-% lb = [100,2000,1.8,1e-4];
-% ub = [400,8000,7,0.002];
-% dim = 4;
-% handles = 1;
-% Value = 1;
-% [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
+SearchAgents_no = 10;
+Max_iter = 30;
+lb = [100,2000,1.8,1e-4];
+ub = [400,8000,7,0.002];
+dim = 4;
+handles = 1;
+Value = 1;
+[Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
 % Kp =
 % 
