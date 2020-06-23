@@ -1,15 +1,18 @@
 function [erroPenalizado] = FOB(k)
 dt = 0.001;
-Kp = k(1); Ki = k(2); Kd = k(3); Tf = k(4); 
-b = 0.055;
-P = tf(1,[b 1])*tf(1,[0.125 0])
-Pd = c2d(P,dt,'tustin')
+Kp = k(1); Ki = k(2); Kd = k(3); Tf = k(4);
+G_Ld = tf([2.91e-5 2.91e-5],[1 -0.995],dt);
+%G_Rd = tf([2.546e-5 2.546e-5],[1 -0.995],dt);
+int = tf(1,[0.125 0]);
+intd = c2d(int,dt,'tustin');
+Gd = G_Ld;
+Pd = Gd * intd;
 C = Kp + tf(Ki,[1,0]) + tf([Kd,0],[Tf,1])
 Cd = c2d(C,dt,'tustin')
-Gd = feedback(Cd*Pd,1)
+Pc = feedback(Cd*Pd,1)
 t = 0:dt:0.02;
-respostaDegrau = step(Gd,t)';
-esforcoControle = step(Cd/(1+(Cd*Pd)),t)';
+respostaDegrau = step(Pc,t)';
+esforcoControle = step(Cd/(1+(Cd*Pc)),t)';
 flag =0;
 St = 10;
 respostaDegrauAnterior = 0;

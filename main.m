@@ -6,16 +6,16 @@ tic;
 
 % As linhas abaixo são para otimizaçao com base em fmincon
 
-% fun = @FOB;
-% x0 = [261.2903,6015,3.6276,6.3695e-04];
-% a = [];
-% b = [];
-% Aeq = [];
-% Beq = [];
-% lb = [100,2000,1.8,1e-4];
-% ub = [400,8000,7,0.002];
-% 
-% k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
+fun = @FOB;
+x0 = [250,0,8,1.8];
+a = [];
+b = [];
+Aeq = [];
+Beq = [];
+lb = [100,0,2,0];
+ub = [1000,10,20,10];
+
+k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
 % Abaixo temos o melhor resultado encontrado através de fmincon
 
@@ -62,7 +62,7 @@ tic;
 % ub = [400,8000,7,0.002];
 % PopulationSize_Data = 10;
 % EliteCount_Data = 5;
-% MaxGenerations_Data = 10;
+% MaxGenerations_Data = 150;
 % InitialPopulationMatrix_Data =                                                                       [261.2903 6015 3.6276 6.3695e-04;
 %                                                                                                       261.2903 6015 3.6294 6.3695e-04;
 %                                                                                                       261.2841 6015 3.6703 6.4511e-04;
@@ -75,7 +75,7 @@ tic;
 %                                                                                                       261.2879 6015 3.6842 6.4794e-04];
 %                                                                                                       %215.9 6968.5 2.500 0.00001
 % 
-% [k,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data,InitialPopulationMatrix_Data)
+% [k,fval,exitflag,output,population,score] = agConfig(nvars,lb,ub,PopulationSize_Data,EliteCount_Data,MaxGenerations_Data)%,InitialPopulationMatrix_Data)
                                                                                                    
 % Utilizando ag com as configurações acima, obtemos o resultados abaixo 
 % (2 indivíduos)
@@ -282,14 +282,14 @@ tic;
 
 % GWO
 
-SearchAgents_no = 10;
-Max_iter = 30;
-lb = [100,2000,1.8,1e-4];
-ub = [400,8000,7,0.002];
-dim = 4;
-handles = 1;
-Value = 1;
-[Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
+% SearchAgents_no = 10;
+% Max_iter = 30;
+% lb = [100,2000,1.8,1e-4];
+% ub = [400,8000,7,0.002];
+% dim = 4;
+% handles = 1;
+% Value = 1;
+% [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
 % Kp =
 % 

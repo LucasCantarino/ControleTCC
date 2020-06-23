@@ -32,10 +32,6 @@ KpL = 308.2;
 KiL = 1540;
 KpR = 353.5;
 KiR = 1766;
-% KpR = 354.1229;    % PIDF
-% KiR = 1841.178;
-% KdR = 9.5987;
-% TfR = 0.268;
 
 PID_L = KpL + KiL*tf(1,[1 0]);
 PID_R = KpR + KiR*tf(1,[1 0]); %+ tf([KdR,0],[TfR,1]); PIDF
@@ -70,49 +66,93 @@ step(RespostaDegrauR,t);
 % figure
 % plot(t,18*a)
 
-b = 0.055;
-P = tf(1,[b 1])*tf(1,[0.125 0])
-Pd = c2d(P,dt,'tustin')
-
+int = tf(1,[0.125 0]);
+intd = c2d(int,dt,'tustin');
+PdL = G_Ld * intd;
+PdR = G_Rd * intd;
 % Utilizar PIDF com response time = 0.004915 e transient behaviour =
 % 0.6 (esforço máximo de 5122)
-Kp = 128.5694
-Ki = 3423.6
-Kd = 6.4898
-Tf = 5.5823e-04
-C = Kp + tf(Ki,[1,0]) + tf([Kd,0],[Tf,1]);
-Cd = c2d(C,dt,'tustin');
-Gd = feedback(Cd*Pd,1);
+KpL = 1000
+KiL = 10
+KdL = 20
+TfL = 0
+
+KpR = 1000
+KiR = 10
+KdR = 20
+TfR = 0
+
+CL = KpL + tf(KiL,[1,0]) + tf([KdL,0],[TfL,1]);
+CR = KpR + tf(KiR,[1,0]) + tf([KdR,0],[TfR,1]);
+
+CdL = c2d(CL,dt,'tustin');
+CdR = c2d(CL,dt,'tustin');
+
+PcL = feedback(CdL*PdL,1);
+PcR = feedback(CdR*PdR,1);
+
 t = 0:dt:0.02;
-respostaDegrau = step(Gd,t)';
+respostaDegrauL = step(PcL,t)';
+respostaDegrauR = step(PcR,t)';
+
 figure;
-step(Gd,t);
-esforcoControle = step(Cd/(1+(Cd*Pd)),t)';
+step(PcL,t);
+hold on;
+step(PcR,t);
+
+esforcoControleL = step(CdL/(1+(CdL*PdL)),t)';
+esforcoControleR = step(CdR/(1+(CdR*PdR)),t)';
+
 figure;
-step(Cd/(1+(Cd*Pd)),t);
+step(CdL/(1+(CdL*PdL)),t);
+hold on;
+step(CdR/(1+(CdR*PdR)),t);
+
 flag =0;
 St = 10;
 respostaDegrauAnterior = 0;
+
 for i = 1:21
-    if (flag ==0 && respostaDegrau(i)>=1)
-        Ts = (i-1)/1000
+    if (flag ==0 && respostaDegrauL(i)>=1)
+        TsL = (i-1)/1000
         flag =1;
     end
-    if (flag ==1 && respostaDegrauAnterior>respostaDegrau(i))
-        Mp = respostaDegrauAnterior
+    if (flag ==1 && respostaDegrauAnterior>respostaDegrauL(i))
+        MpL = respostaDegrauAnterior
         flag = 2;
     end
-    if (flag ==2 && respostaDegrau(i)<=1.02)
-        St = (i-1)/1000
+    if (flag ==2 && respostaDegrauL(i)<=1.02)
+        StL = (i-1)/1000
         flag = 3;
     end
-    respostaDegrauAnterior = respostaDegrau(i);
-    erroParcial(i) = (1 - respostaDegrau(i))^2;
+    respostaDegrauAnterior = respostaDegrauL(i);
+    erroParcial(i) = (1 - respostaDegrauL(i))^2;
 end
-erroTotal = sum(erroParcial) 
-erroPenalizado = erroTotal + exp(esforcoControle(1)-5122)
+erroTotalL = sum(erroParcial) 
+erroPenalizadoL = erroTotalL + exp(esforcoControleL(1)-5122)
 
+flag =0;
+St = 10;
+respostaDegrauAnterior = 0;
 
+for i = 1:21
+    if (flag ==0 && respostaDegrauR(i)>=1)
+        TsR = (i-1)/1000
+        flag =1;
+    end
+    if (flag ==1 && respostaDegrauAnterior>respostaDegrauR(i))
+        MpR = respostaDegrauAnterior
+        flag = 2;
+    end
+    if (flag ==2 && respostaDegrauR(i)<=1.02)
+        StR = (i-1)/1000
+        flag = 3;
+    end
+    respostaDegrauAnterior = respostaDegrauR(i);
+    erroParcial(i) = (1 - respostaDegrauR(i))^2;
+end
+erroTotalR = sum(erroParcial) 
+erroPenalizadoR = erroTotalR + exp(esforcoControleR(1)-5122)
 
 
 
