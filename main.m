@@ -1,21 +1,21 @@
 clc; clear all; close all;
 tic;
-% Os valores iniciais foram otidos usando PIDF com response time = 0.004915 e transient behaviour =
-% 0.6 no código "controle" para a planta contínua P. Os valores máximos
+% Os valores iniciais foram otidos usando PIDF com response time = 0.0997 e transient behaviour =
+% 0.6 no código "controle" para a discreta PdL. Os valores máximos
 % foram definidos no chute.
 
 % As linhas abaixo são para otimizaçao com base em fmincon
 
-fun = @FOB;
-x0 = [250,0,8,1.8];
-a = [];
-b = [];
-Aeq = [];
-Beq = [];
-lb = [100,0,2,0];
-ub = [1000,10,20,10];
-
-k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
+% fun = @FOB;
+% x0 = [408.9,856.1,42.4,0.009026];
+% a = [];
+% b = [];
+% Aeq = [];
+% Beq = [];
+% lb = [200,400,20,0];
+% ub = [800,2000,100,0.1];
+% 
+% k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
 % Abaixo temos o melhor resultado encontrado através de fmincon
 
@@ -282,14 +282,14 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
 % GWO
 
-% SearchAgents_no = 10;
-% Max_iter = 30;
-% lb = [100,2000,1.8,1e-4];
-% ub = [400,8000,7,0.002];
-% dim = 4;
-% handles = 1;
-% Value = 1;
-% [Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
+SearchAgents_no = 10;
+Max_iter = 30;
+lb = [200,400,20,0];
+ub = [800,2000,100,0.1];
+dim = 4;
+handles = 1;
+Value = 1;
+[Alpha_score,Alpha_pos,Convergence_curve]=GWO(SearchAgents_no,Max_iter,lb,ub,dim,handles,Value) 
 
 % Kp =
 % 

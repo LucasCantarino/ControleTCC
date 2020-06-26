@@ -42,7 +42,7 @@ PID_Rd = c2d(PID_R,dt,'tustin');
 MalhaInternaLd = feedback(PID_Ld*G_Ld,1);
 MalhaInternaRd = feedback(PID_Rd*G_Rd,1);
 
-t = 0:dt:0.5;
+t = 0:dt:0.6;
 u = 1000*ones(size(t));
 vL_pid = lsim(MalhaInternaLd,0.001*u,t);
 vR_pid = lsim(MalhaInternaRd,0.001*u,t);
@@ -70,17 +70,17 @@ int = tf(1,[0.125 0]);
 intd = c2d(int,dt,'tustin');
 PdL = G_Ld * intd;
 PdR = G_Rd * intd;
-% Utilizar PIDF com response time = 0.004915 e transient behaviour =
+% Utilizar PIDF com response time = 0.0997 e transient behaviour =
 % 0.6 (esforço máximo de 5122)
-KpL = 1000
-KiL = 10
-KdL = 20
-TfL = 0
+KpL = 408.9
+KiL = 856.1
+KdL = 42.4
+TfL = 0.009026
 
-KpR = 1000
-KiR = 10
-KdR = 20
-TfR = 0
+KpR = 422.3
+KiR = 882.9
+KdR = 45.13
+TfR = 0.00964
 
 CL = KpL + tf(KiL,[1,0]) + tf([KdL,0],[TfL,1]);
 CR = KpR + tf(KiR,[1,0]) + tf([KdR,0],[TfR,1]);
@@ -91,7 +91,7 @@ CdR = c2d(CL,dt,'tustin');
 PcL = feedback(CdL*PdL,1);
 PcR = feedback(CdR*PdR,1);
 
-t = 0:dt:0.02;
+t = 0:dt:0.6;
 respostaDegrauL = step(PcL,t)';
 respostaDegrauR = step(PcR,t)';
 
@@ -112,7 +112,7 @@ flag =0;
 St = 10;
 respostaDegrauAnterior = 0;
 
-for i = 1:21
+for i = 1:601
     if (flag ==0 && respostaDegrauL(i)>=1)
         TsL = (i-1)/1000
         flag =1;
@@ -135,7 +135,7 @@ flag =0;
 St = 10;
 respostaDegrauAnterior = 0;
 
-for i = 1:21
+for i = 1:601
     if (flag ==0 && respostaDegrauR(i)>=1)
         TsR = (i-1)/1000
         flag =1;
