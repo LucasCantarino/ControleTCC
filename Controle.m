@@ -5,7 +5,7 @@ t = 0:dt:1.4;
 u = 1000*ones(size(t));
 
 %esquerdo
-a1 = 0.01167;
+a1 = 0.01167;5
 b1 = 0.2;
 
 %direito
@@ -30,15 +30,15 @@ plot(t,vR)
 %controlador para degrau maximo de 1,152 (pwm de 355) e response time 0.111
 KpL = 308.2;
 KiL = 1540;
-KpR = 353.5;
-KiR = 1766;
-% KpR = 354.1229;    % PIDF
-% KiR = 1841.178;
-% KdR = 9.5987;
-% TfR = 0.268;
+% KpR = 353.5;
+% KiR = 1766;
+KpR = 3.536043380503151e+02;    % PIDF
+KiR = 3.626671205271327e+03;
+KdR = 19.612571047105437;
+TfR = 0.398817966251901;
 
 PID_L = KpL + KiL*tf(1,[1 0]);
-PID_R = KpR + KiR*tf(1,[1 0]); %+ tf([KdR,0],[TfR,1]); PIDF
+PID_R = KpR + KiR*tf(1,[1 0]); + tf([KdR,0],[TfR,1]); %PIDF
 
 PID_Ld = c2d(PID_L,dt,'tustin');
 PID_Rd = c2d(PID_R,dt,'tustin');
@@ -79,7 +79,7 @@ Pd = c2d(P,dt,'tustin')
 Kp = 128.5694
 Ki = 3423.6
 Kd = 6.4898
-Tf = 5.5823e-04
+Tf = 6.2615e-04;
 C = Kp + tf(Ki,[1,0]) + tf([Kd,0],[Tf,1]);
 Cd = c2d(C,dt,'tustin');
 Gd = feedback(Cd*Pd,1);

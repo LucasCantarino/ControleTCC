@@ -15,7 +15,7 @@ if Boundary_no>1
         ub_i=ub(i);
         lb_i=lb(i);
         x(:,i)=rand(N,1).*(ub_i-lb_i)+lb_i;
-    end
+end
 
 % x = [261.2903 6015 3.6276 6.3695e-04;
 %      261.2903 6015 3.6276 6.3695e-04;

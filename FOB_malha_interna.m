@@ -36,4 +36,4 @@ for i = 401:-1:1
 end
 esforcoDeControleMax = esforcoControle(1)
 erroTotal = sum(erroParcial) 
-erroPenalizado = erroTotal + exp(esforcoControle(1)-355) + exp(10*Mp)
+erroPenalizado = erroTotal + exp(esforcoControle(1)-355) + exp(10*(Mp - 1))
