@@ -34,7 +34,7 @@ KpR = 353.5;
 KiR = 1766;
 
 PID_L = KpL + KiL*tf(1,[1 0]);
-PID_R = KpR + KiR*tf(1,[1 0]); + tf([KdR,0],[TfR,1]); %PIDF
+PID_R = KpR + KiR*tf(1,[1 0]); %+ tf([KdR,0],[TfR,1]); %PIDF
 
 PID_Ld = c2d(PID_L,dt,'tustin');
 PID_Rd = c2d(PID_R,dt,'tustin');

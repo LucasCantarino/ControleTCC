@@ -40,6 +40,36 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 %    8.8653e-10
 % 
 % 
+% ans =
+% 
+%   799.9996  400.0019  100.0000    0.0000
+% 
+% 
+% TsL =
+% 
+%     0.0900
+% 
+% 
+% MpL =
+% 
+%     1.1245
+% 
+% 
+% StL =
+% 
+%     0.5910
+% 
+% 
+% erroTotalL =
+% 
+%    28.5575
+% 
+% 
+% erroPenalizadoL =
+% 
+%    28.5575
+% 
+% 
 % TsR =
 % 
 %     0.1010
@@ -290,53 +320,14 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
 % bat
 
-    Max_iter=30;            % maximum generations
-    N=10;                   %BAT numbers
-    lb=[100,2000,1.8,1e-4];
-    ub=[400,8000,7,0.002];
-    dim=4;
-[bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
+%     Max_iter=30;            % maximum generations
+%     N=10;                   %BAT numbers
+%     lb=[100,2000,1.8,1e-4];
+%     ub=[400,8000,7,0.002];
+%     dim=4;
+% [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 
 % Resultados
-
-%Resultados obtidos com a nova modelagem do robô:
-% KpR =
-% 
-%   320.8924
-% 
-% 
-% KiR =
-% 
-%    3.0860e+03
-% 
-% 
-% KdR =
-% 
-%     2.1524
-% 
-% 
-% TfR =
-% 
-%     0.0027
-% 
-% TsR =
-% 
-%     0.1010
-% 
-% 
-% MpR =
-% 
-%     1.1343
-% 
-% 
-% erroTotalR =
-% 
-%    31.9360
-% 
-% 
-% erroPenalizadoR =
-% 
-%    31.9360
 
 % Kp = 143.2133; Ki = 3286.5; Kd = 3.7841; Tf = 0.0011;
 
@@ -413,22 +404,23 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 %Resultados obtidos com a nova modelagem do robô:
 % KpR =
 % 
-%   353.5997
+%   351.4085
 % 
 % 
 % KiR =
 % 
-%    1.8387e+03
+%    1.8053e+03
 % 
 % 
 % KdR =
 % 
-%    84.7496
+%     30.7893
 % 
 % 
 % TfR =
 % 
-%     0.0370
+%    0.0293
+% 
 % 
 % TsR =
 % 
@@ -440,14 +432,19 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 %     1.1343
 % 
 % 
+% St =
+% 
+%     -----
+% 
+% 
 % erroTotalR =
 % 
-%    31.9360
+%     31.9360
 % 
 % 
 % erroPenalizadoR =
 % 
-%    31.9360
+%     31.9360
 
 % Kp =
 % 
