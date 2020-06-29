@@ -5,7 +5,7 @@ t = 0:dt:1.4;
 u = 1000*ones(size(t));
 
 %esquerdo
-a1 = 0.01167;5
+a1 = 0.01167;
 b1 = 0.2;
 
 %direito
@@ -72,6 +72,7 @@ PdL = G_Ld * intd;
 PdR = G_Rd * intd;
 % Utilizar PIDF com response time = 0.0997 e transient behaviour =
 % 0.6 (esforço máximo de 5122)
+
 KpL = 408.9
 KiL = 856.1
 KdL = 42.4
@@ -86,7 +87,7 @@ CL = KpL + tf(KiL,[1,0]) + tf([KdL,0],[TfL,1]);
 CR = KpR + tf(KiR,[1,0]) + tf([KdR,0],[TfR,1]);
 
 CdL = c2d(CL,dt,'tustin');
-CdR = c2d(CL,dt,'tustin');
+CdR = c2d(CR,dt,'tustin');
 
 PcL = feedback(CdL*PdL,1);
 PcR = feedback(CdR*PdR,1);
