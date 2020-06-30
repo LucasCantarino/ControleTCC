@@ -107,7 +107,7 @@ while l<Max_iter
     Convergence_curve(l)=Alpha_score;
     if l>1
         line([l-1 l], [Convergence_curve(l-1) Convergence_curve(l)],'Color','b')
-        axis([0 150 0 100]);
+        axis([0 30 0 100]);
         xlabel('Iteration');
         ylabel('Best score obtained so far');        
         drawnow

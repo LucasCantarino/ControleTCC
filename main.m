@@ -6,16 +6,16 @@ tic;
 
 % As linhas abaixo são para otimizaçao com base em fmincon
 
-% fun = @FOB;
-% x0 = [408.9,856.1,42.4,0.009026];
-% a = [];
-% b = [];
-% Aeq = [];
-% Beq = [];
-% lb = [200,400,20,0.0045];
-% ub = [800,1600,80,0.018];
-% 
-% k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
+fun = @FOB;
+x0 = [408.9,856.1,42.4,0.009026];
+a = [];
+b = [];
+Aeq = [];
+Beq = [];
+lb = [50,50,20,0.0045];
+ub = [1100,2000,200,0.03];
+
+k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
 % Abaixo temos o melhor resultado encontrado através de fmincon
 
@@ -98,11 +98,11 @@ tic;
 % App de otimização
 
 % nvars = 4;
-% lb = [200,400,20,0.0045];
-% ub = [800,1600,80,0.018];
+% lb = [50,50,20,0.0045];
+% ub = [1100,2000,200,0.03];
 % PopulationSize_Data = 10;
 % EliteCount_Data = 5;
-% MaxGenerations_Data = 150;
+% MaxGenerations_Data = 30;
 % InitialPopulationMatrix_Data =                                                                       [422.3 882.9 45.13 0.00964];
 %                                                                                                       261.2903 6015 3.6294 6.3695e-04;
 %                                                                                                       261.2841 6015 3.6703 6.4511e-04;
@@ -239,10 +239,6 @@ tic;
 % 
 %    2.2579e-04
 
-
-
-
-
 % Kp =
 % 
 %   260.9981
@@ -290,13 +286,12 @@ tic;
 
 % bat
 
-Max_iter=150;            % maximum generations
-N=10;                   %BAT numbers
-lb = [200,400,20,0.0045];
-ub = [800,1600,80,0.018];% lb = [200,400,20,0.0045];
-ub = [800,1600,80,0.018];
-dim=4;
-[bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
+% Max_iter = 30;            % maximum generations
+% N = 10;                   %BAT numbers
+% lb = [50,50,20,0.0045];
+% ub = [1100,2000,200,0.03];
+% dim = 4;
+% [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 
 % Resultados
 
@@ -403,9 +398,9 @@ dim=4;
 % GWO
 
 % SearchAgents_no = 10;
-% Max_iter = 150;
-% lb = [200,400,20,0.0045];
-% ub = [800,1600,80,0.018];
+% Max_iter = 30;
+% lb = [50,50,20,0.0045];
+% ub = [1100,2000,200,0.03];
 % dim = 4;
 % handles = 1;
 % Value = 1;

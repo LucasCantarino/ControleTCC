@@ -73,15 +73,53 @@ PdR = G_Rd * intd;
 % Utilizar PIDF com response time = 0.0997 e transient behaviour =
 % 0.6 (esforço máximo de 5122)
 
-KpL = 408.9
-KiL = 856.1
-KdL = 42.4
-TfL = 0.009026
+% Parâmetros obtidos pelo Pid Tuner
 
-KpR = 422.3
-KiR = 882.9
-KdR = 45.13
-TfR = 0.00964
+% KpL = 408.9
+% KiL = 856.1
+% KdL = 42.4
+% TfL = 0.009026
+% 
+% KpR = 422.3
+% KiR = 882.9
+% KdR = 45.13
+% TfR = 0.0093
+
+% Parâmetros obtidos pelo fmincon
+
+% KpR = 411.2589
+% KiR = 853.8713
+% KdR = 46.3093
+% TfR = 0.00964
+% 
+% KpL = 471.0615
+% KiL = 743.0088
+% KdL = 52.6229
+% TfL = 0.0108
+
+% Parâmetros obtidos pelo bat
+
+% KpR = 203.2235
+% KiR = 113.1010
+% KdR = 48.8966
+% TfR = 0.0095
+
+% KpL = 347.4003
+% KiL = 934.6986
+% KdL = 125.7881
+% TfL = 0.0261
+
+% Parâmetros obtidos pelo GWO
+
+KpR = 355.0630
+KiR = 1842.2713
+KdR = 50.9344
+TfR = 0.0077
+
+KpL = 354.4605
+KiL = 1839.6479
+KdL = 50.1227
+TfL = 0.0094
 
 CL = KpL + tf(KiL,[1,0]) + tf([KdL,0],[TfL,1]);
 CR = KpR + tf(KiR,[1,0]) + tf([KdR,0],[TfR,1]);
