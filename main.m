@@ -7,13 +7,13 @@ tic;
 % As linhas abaixo são para otimizaçao com base em fmincon
 
 fun = @FOB;
-x0 = [408.9,856.1,42.4,0.009026];
+x0 = [533.5934,1331.0677,51.382,0.007614];
 a = [];
 b = [];
 Aeq = [];
 Beq = [];
-lb = [50,50,20,0.0045];
-ub = [1100,2000,200,0.03];
+lb = [50,50,20,0];
+ub = [1100,2000,200,0.2];
 
 k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
@@ -98,11 +98,11 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 % App de otimização
 
 % nvars = 4;
-% lb = [50,50,20,0.0045];
-% ub = [1100,2000,200,0.03];
+% lb = [50,50,20,0.005];
+% ub = [1100,2000,200,0.2];
 % PopulationSize_Data = 10;
 % EliteCount_Data = 5;
-% MaxGenerations_Data = 30;
+% MaxGenerations_Data = 150;
 % InitialPopulationMatrix_Data =                                                                       [422.3 882.9 45.13 0.00964];
 %                                                                                                       261.2903 6015 3.6294 6.3695e-04;
 %                                                                                                       261.2841 6015 3.6703 6.4511e-04;
@@ -286,10 +286,10 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 
 % bat
 
-% Max_iter = 30;            % maximum generations
+% Max_iter = 150;            % maximum generations
 % N = 10;                   %BAT numbers
-% lb = [50,50,20,0.0045];
-% ub = [1100,2000,200,0.03];
+% lb = [50,50,20,0.005];
+% ub = [1200,2100,200,0.2];
 % dim = 4;
 % [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
 
@@ -398,7 +398,7 @@ k = fmincon(fun,x0,a,b,Aeq,Beq,lb,ub);
 % GWO
 
 % SearchAgents_no = 10;
-% Max_iter = 30;
+% Max_iter = 150;
 % lb = [50,50,20,0.0045];
 % ub = [1100,2000,200,0.03];
 % dim = 4;

@@ -5,7 +5,7 @@ G_Ld = tf([2.91e-5 2.91e-5],[1 -0.995],dt);
 G_Rd = tf([2.546e-5 2.546e-5],[1 -0.995],dt);
 int = tf(1,[0.125 0]);
 intd = c2d(int,dt,'tustin');
-Gd = G_Ld;
+Gd = G_Rd;
 Pd = Gd * intd;
 C = Kp + tf(Ki,[1,0]) + tf([Kd,0],[Tf,1]);
 Cd = c2d(C,dt,'tustin');
@@ -34,4 +34,4 @@ for i = 1:601
 end
 esfocoControleMax = esforcoControle(1)
 erroTotal = sum(erroParcial) 
-erroPenalizado = erroTotal + exp(esfocoControleMax-5122)
+erroPenalizado = erroTotal + exp(esfocoControleMax-8316)

@@ -1,5 +1,5 @@
 function  [bestfit,BestPositions,fmin,Convergence_curve]=bat(N,Max_iter,lb,ub,dim)
-Fmax=[10.5 19.5 1.8 2.55e-4];                 %maximum frequency
+Fmax=[11.5 20.5 1.8 0.002];                 %maximum frequency
 Fmin=[0 0 0 0];                 %minimum frequency
 A=rand(N,1);            %loudness for each BAT
 r=rand(N,1);            %pulse emission rate for each BAT
@@ -46,7 +46,7 @@ while iter<=Max_iter                                         %start the loop for
         fitnessnew=FOB(x(ii,:));  % calculate the objective function
         % Update if the solution improves, or not too loud
         plot(iter,fitnessnew,'k.');
-        axis([0 30 0 100]);
+        axis([0 150 0 100]);
         drawnow;
         hold on;
         if (fitnessnew<=fitness(ii)) && (rand<A(ii)) ,
