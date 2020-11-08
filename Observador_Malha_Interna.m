@@ -41,8 +41,10 @@ MalhaInternaL = feedback(PID_L*G_L,1)
 MalhaInternaR = feedback(PID_R*G_R,1)
 
 % Ambas malhas internas são iguais após o controle de malha fechada
-% A variável abaixo foi definida copiando os valores das malhas internas calculadas pelo próprio MATLAB 
+% A variável abaixo foi definida copiando os valores das malhas internas calculadas pelo próprio MATLAB
+NumeradorMalhaInterna = [1.591 7.937];
 DenominadorMalhaInterna = [0.2 2.591 7.937];
+[A,B,C,D] = tf2ss(NumeradorMalhaInterna,DenominadorMalhaInterna)
 mi = roots(DenominadorMalhaInterna)
 % Os polos do observador devem ser de 2 a 5 vezes o do controlador segundo
 % os slides. Foi utilizado o sistema controlado realimentado pois o polo do

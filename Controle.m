@@ -12,6 +12,7 @@ b1 = 0.2;
 a2 = 0.01021;
 b2 = 0.2;
 
+
 %continuo
 G_L = tf(a1,[b1 1]);
 G_R = tf(a2,[b2 1]);
@@ -178,8 +179,8 @@ TfR = 0.01784
 % KdR = 87.3903
 % TfR = 0.02617
 
-CL = KpL + tf(KiL,[1,0]) + tf([KdL,0],[TfL,1]);
-CR = KpR + tf(KiR,[1,0]) + tf([KdR,0],[TfR,1]);
+CL = KpL + tf(KiL,[1 0]) + tf([KdL 0],[TfL 1]);
+CR = KpR + tf(KiR,[1 0]) + tf([KdR 0],[TfR 1]);
 
 CdL = c2d(CL,dt,'tustin');
 CdR = c2d(CR,dt,'tustin');
