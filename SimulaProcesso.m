@@ -45,8 +45,8 @@ Pini = P;
 raio = [2 1];
 angulo = [73 92];
 
-n = 1;
-    for cont =1:n
+n = 2;
+    for cont =1:1:n
         g_r(cont) = raio(cont);              % Definindo a distância do objetivo
         g_th(cont) = deg2rad(angulo(cont));  % Definindo o ângulo do objetivo
         G = [Pini(1) + g_r(cont) * cos(g_th(cont));

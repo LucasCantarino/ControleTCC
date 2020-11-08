@@ -10,11 +10,11 @@ delta = 0.001  % Estabelece a tolerãncia ao erro
 
 % Para usar a média no cálculo do erro, escolha modo = 1
 % Para usar desvio padrão no cálculo do erro, escolha modo = 2
-modo = 2;
+modo = 1;
 
 Erro_best = SimulaProcesso(K , 0, modo); % Calcula o erro ao percorrer a trajetória para dado conjunto K
                                          % O parâmetro 0 é para que não seja plotada a simulação
-k = 0;                                   % Contador de iterações
+k = 0;% Contador de iterações
 
  while sum(dK) > delta                   % Enquanto a soma de dK para cada K for menor que a tolerância do erro
     
