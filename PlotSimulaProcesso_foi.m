@@ -15,4 +15,4 @@ plot([P(1) P(1)+0.1*cos(P(3))],[P(2) P(2)+0.1*sin(P(3))],'r','linewidth',2)%orie
 plot([P(1) P(1)+1*cos(P(3)+pi/2)],[P(2) P(2)+1*sin(P(3)+pi/2)],'k','linewidth',2)%eixo das rodas: esquerdo
 plot([P(1) P(1)+1*cos(P(3)-pi/2)],[P(2) P(2)+1*sin(P(3)-pi/2)],'k','linewidth',2)%eixo das rodas: direito
 hold off;axis equal;grid on;xlabel('x');ylabel('y');set(gcf,'color','w');
-title(sprintf('t = %.2fs, Erro = %.2fm',t,Erro(end)));drawnow;
+title(sprintf('v = %.2fm/s t = %.2fs, Erro = %.2fm',v,t,Erro(end)));drawnow;

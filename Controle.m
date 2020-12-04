@@ -250,8 +250,3 @@ for i = 1:601
 end
 erroTotalR = sum(erroParcial) 
 erroPenalizadoR = erroTotalR + exp(esforcoControleR(1)-8316)
-
-
-
-
-

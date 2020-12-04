@@ -40,6 +40,7 @@ c = G(1)*P_ini(2) - P_ini(1)*G(2); %G(1) alterado para G(2)
 Erro = abs(a*P(1)+b*P(2)+c)/sqrt(a^2 + b^2);
 
 vmax = 0.25;
+vfinal = 0.1;
 wmax = deg2rad(300);
 
 int_alpha = 0;
@@ -47,7 +48,7 @@ dif_alpha = 0;
 alpha_old = 0;
 
 t = 0;
-tmax = 10*sqrt((G(1) - P_ini(1))^2 + (G(2) - P_ini(2))^2)/vmax;
+tmax = 3*10*sqrt((G(1) - P_ini(1))^2 + (G(2) - P_ini(2))^2)/vmax;
 
 delta = 0.1;
 
@@ -55,6 +56,7 @@ Dx = G(1) - P(1);
 Dy = G(2) - P(2);
 
 rho = sqrt(Dx^2 + Dy^2);
+rhoinicial = rho;
 gamma = AjustaAngulo(atan2(Dy,Dx));
 alpha = AjustaAngulo(gamma - P(3));
 
@@ -62,12 +64,16 @@ dt = 0.1;
 
 while ((rho > delta) && (t <= tmax))
     
-    t = t + 1;
+    t = t + 1;%t em milésimos de segundo.
+    %acel_num = 
+    
 
     Dx = G(1) - P(1);
     Dy = G(2) - P(2);
 
     rho = sqrt(Dx^2 + Dy^2);
+    
+    %rho = max(rho,vfinal);
 
     gamma = AjustaAngulo(atan2(Dy,Dx));
 
@@ -77,7 +83,13 @@ while ((rho > delta) && (t <= tmax))
     dif_alpha = (alpha - alpha_old);
     alpha_old = alpha;
     
-    v = min(rho,vmax);
+    %v = min(rho,vmax);
+    
+    if(rho <= rhoinicial/4)
+        v = vfinal;
+    else
+        v = min(rho,vmax);
+    end
 
     if (abs(alpha) > pi/2)
         v = -v;
@@ -99,7 +111,7 @@ while ((rho > delta) && (t <= tmax))
     Erro = [Erro;abs(w) + abs(a*P(1) + b*P(2)+c)/sqrt(a^2 + b^2)];%abs(diff_w) <-- adicionar para calcular o trajeto suavizado 
     
     if isequal(plot_sim,1)
-        PlotSimulaProcesso;
+        PlotSimulaProcesso_foi;
         P_fin = P;
     end
 end
