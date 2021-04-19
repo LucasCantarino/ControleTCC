@@ -1,14 +1,21 @@
 clear all; clc; close all;
 
-       p1 =       30.33
-       p2 =      -65.24
-       p3 =       58.41
-       p4 =      -28.28
-       p5 =       7.747
-       p6 =      0.0063
+%        p1 =       30.33
+%        p2 =      -65.24
+%        p3 =       58.41
+%        p4 =      -28.28
+%        p5 =       7.747
+%        p6 =      0.0063
+
+       p1 =      -19.75;
+       p2 =       34.16;
+       p3 =      -22.83;
+       p4 =       7.281;
+       p5 =      0.0155;
+
        
 syms x
-vel = p1*x^5 + p2*x^4 + p3*x^3 + p4*x^2 + p5*x + p6;
+vel = p1*x^4 + p2*x^3 + p3*x^2 + p4*x + p5;
 acel = diff(vel);
 
 K = [0 0 0];% matriz de ganhos PID
@@ -23,7 +30,7 @@ ksi = 1/100; %"incremento do incremento"
 
 delta = 0.001; %critério de parada
 
-[melhor_erro,~] = SimulaProcesso_foi(P,g_th,K,0);
+[melhor_erro,~] = SimulaProcesso_foi(P,g_th,K,0,vel,x);
 erro_tempo = melhor_erro;
 
 k = 0; %iterações
@@ -37,7 +44,7 @@ while sum(dK) > delta
     for i = 1:length(K)
     
         K(i) = K(i) + dK(i);
-        [Erro,~] = SimulaProcesso_foi(P,g_th,K,0);
+        [Erro,~] = SimulaProcesso_foi(P,g_th,K,0,vel,x);
         
         if Erro < melhor_erro
             melhor_erro = Erro;
@@ -47,7 +54,7 @@ while sum(dK) > delta
             
             K(i) = K(i) - 2*dK(i);
             
-           [Erro,~] = SimulaProcesso_foi(P,g_th,K,0);
+           [Erro,~] = SimulaProcesso_foi(P,g_th,K,0,vel,x);
             
             if Erro < melhor_erro
                 
@@ -65,7 +72,7 @@ while sum(dK) > delta
 end
 
     fprintf('Parâmetros: P = %.4f, I = %.4f, D = %.6f\n',K(1),K(2),K(3))
-    [melhor_erro,erro,P] = SimulaProcesso_foi(P,g_th,K,1);
+    [melhor_erro,erro,P] = SimulaProcesso_foi(P,g_th,K,1,vel,x);
 
     switch j
         case 1
@@ -93,7 +100,7 @@ end
 
     delta = 0.001; %critério de parada
 
-    [melhor_erro,erro] = SimulaProcesso_foi(P,g_th,K,0);
+    [melhor_erro,erro] = SimulaProcesso_foi(P,g_th,K,0,vel,x);
     figure(1)
 
     k = 0; %iterações

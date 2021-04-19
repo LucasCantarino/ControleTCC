@@ -202,9 +202,17 @@ dt = 0.1;
 
 t = 0:dt:(length(v1)-1)*dt;
 
+
+
 %ganho: máximo das curvas dividido pelo sinal de excitação (no caso 1000)
-a1 = max(v1)/1000;
-a2 = max(v2)/1000;
+% a1 = max(v1)/1000;
+% a2 = max(v2)/1000;
+
+%ganho 2.0: média dos valores do estado estacionário da resposta ao degrau.
+
+a1 = mean(v1(8:end))/1000;
+a2 = mean(v2(8:end))/1000;
+
 
 %constante de tempo: tempo necessário para chegar a 63% da maxima amplitude
 valor_v1= max(v1)*0.63;%achando 63% do valor maximo

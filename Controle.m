@@ -4,12 +4,22 @@ dt = 0.001;
 t = 0:dt:1.4;
 u = 1000*ones(size(t));
 
+% %esquerdo
+% a1 = 0.01167;
+% b1 = 0.2;
+% 
+% %direito
+% a2 = 0.01021;
+% b2 = 0.2;
+
+%Valores obtidos através da média das medições em estado permanente
+
 %esquerdo
-a1 = 0.01167;
+a1 = 0.0115;
 b1 = 0.2;
 
 %direito
-a2 = 0.01021;
+a2 = 0.0101;
 b2 = 0.2;
 
 
@@ -29,10 +39,10 @@ hold on
 plot(t,vR)
 
 %controlador para degrau maximo de 1,152 (pwm de 355) e response time 0.111 (padrão)
-% KpL = 308.2;
-% KiL = 1540;
-% KpR = 353.5;
-% KiR = 1766;
+KpL = 308.2;
+KiL = 1540;
+KpR = 353.5;
+KiR = 1766;
 
 %controlador para degrau maximo de 1,7 (pwm de 240) e response  time 0.1625 (novo)
 
@@ -43,10 +53,10 @@ plot(t,vR)
 
 %controlador para degrau maximo de 1.7 (pwm de 155) e response time 0.252 (padrão)
 
-KpL = 136.3563;
-KiL = 680.0814;
-KpR = 155.859;
-KiR = 777.331;
+% KpL = 136.3563;
+% KiL = 680.0814;
+% KpR = 155.859;
+% KiR = 777.331;
 
 PID_L = KpL + KiL*tf(1,[1 0]);
 PID_R = KpR + KiR*tf(1,[1 0]); %+ tf([KdR,0],[TfR,1]); %PIDF
@@ -114,15 +124,15 @@ PdR = G_Rd * intd;
 
 % Parâmetros obtidos pelo bat para esforço máximo de 5122
 
-% KpL = 453.4305
-% KiL = 1168.7579
-% KdL = 66.2625
-% TfL = 0.0139
+KpL = 453.4305
+KiL = 1168.7579
+KdL = 66.2625
+TfL = 0.0139
 
-% KpR = 87.1558
-% KiR = 1637.7642
-% KdR = 155.7484
-% TfR = 0.0310
+KpR = 87.1558
+KiR = 1637.7642
+KdR = 155.7484
+TfR = 0.0310
 
 % Parâmetros obtidos pelo GWO
 
@@ -145,15 +155,15 @@ PdR = G_Rd * intd;
 
 % Parâmetros obtidos pelo fmincon para esforço máximo de 8316
 
-KpL = 257.6467
-KiL = 1369.061
-KdL = 147.7741
-TfL = 0.01784
-
-KpR = 257.6467
-KiR = 1369.061
-KdR = 147.7741
-TfR = 0.01784
+% KpL = 257.6467
+% KiL = 1369.061
+% KdL = 147.7741
+% TfL = 0.01784
+% 
+% KpR = 257.6467
+% KiR = 1369.061
+% KdR = 147.7741
+% TfR = 0.01784
 
 % Parâmetros obtidos pelo bat para esforço máximo de 8316
 

@@ -1,4 +1,4 @@
-function [DeltaErro,Erro,P_fin] = SimulaProcesso(P,g_th,K,plot_sim)
+function [DeltaErro,Erro,P_fin] = SimulaProcesso(P,g_th,K,plot_sim,vel,x)
     Kp = K(1);
     Ki = K(2);
     Kd = K(3);
@@ -61,6 +61,8 @@ gamma = AjustaAngulo(atan2(Dy,Dx));
 alpha = AjustaAngulo(gamma - P(3));
 
 dt = 0.1;
+dt2 = 0; %valor inicial de dt que será incrementado no loop da velocidade transitória
+v_array = vmax;
 
 while ((rho > delta) && (t <= tmax))
     
@@ -86,7 +88,13 @@ while ((rho > delta) && (t <= tmax))
     %v = min(rho,vmax);
     
     if(rho <= rhoinicial/4)
-        v = vfinal;
+        %if(abs(vfinal - v)<(abs(0.02*(vfinal - vmax))))
+        if(dt2>0.6)
+            v = vfinal;
+        else
+            dt2=dt2+0.1;
+            v = vmax + (vfinal - vmax)*double(subs(vel,x,dt2));
+        end
     else
         v = min(rho,vmax);
     end
@@ -109,6 +117,8 @@ while ((rho > delta) && (t <= tmax))
     R = [R,P];
    
     Erro = [Erro;abs(w) + abs(a*P(1) + b*P(2)+c)/sqrt(a^2 + b^2)];%abs(diff_w) <-- adicionar para calcular o trajeto suavizado 
+    
+    v_array = [v_array;v];
     
     if isequal(plot_sim,1)
         PlotSimulaProcesso_foi;
