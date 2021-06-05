@@ -1,7 +1,7 @@
 function [ erro ] = otimiza_Esq( X )
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
-global x t u num den
+global x t u_l num den
 
 dt = 0.001;
 
@@ -27,7 +27,7 @@ erro_quad = (y_dir - y_sys)'*(y_dir - y_sys);
 
 %penalidade
 
-satura = u.*(u > 4095);
+satura = u_l.*(u_l > 4095);
 penalidade = sum(satura);
 
 erro = erro_quad + penalidade;
