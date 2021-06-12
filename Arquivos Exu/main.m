@@ -4,15 +4,6 @@ clear all
 
 dt = 0.001;
 
-num_l = 0;
-den_l = 0;
-
-num_r = 0;
-den_r = 0;
-
-x_r = [0 0];
-x_l = [0 0];
-
 %referência
 wn = 10;
 ksi = 0.8;
@@ -28,15 +19,15 @@ den_ref = [1 2*wn*ksi wn^2];
 
 %ganhos iniciais
 global x;
-x(1) = 353.5;
-x(2) = 1766;
+x(1) = 353.5; %Kp
+x(2) = 1766; %Ki
+x(3) = 1000;% Saturação Wind up
 
 global t;
 t = 0:dt:1;
 
-L = 0.1; %diâmetro do robô
 
-sim('planta',t);
+sim('plantaMalhaInterna',t);
 
 plot(t,y_ref)
 hold on
@@ -46,22 +37,14 @@ options = optimset('Algorithm','interior-point', ...
                     'Display','on','TolX',1e-7);
 
 %kp_max = 100.46; %kp_max = u_max/e_max; u_max = 4095; e_max = maximo do motor - zero
-x = fmincon(@otimiza_PI,x,[],[],[],[],[0 0],[inf inf],@QQQ,options);
-
-%configuração dos parâmetros da malha externa (malha do motor direito)
-
-num_r = num;
-den_r = den;
-
-x_r(1) = x(1);
-x_r(2) = x(2);
+x = fmincon(@otimiza_PI,x,[],[],[],[],[0 0 0],[inf inf inf],@QQQ,options);
 
 
-sim('planta',t);
+sim('plantaMalhaInterna',t);
 
 figure 
 
-y_ref = 10*ones(size(y_sys));
+%y_ref = 10*ones(size(y_sys));
 
 plot(t,y_ref)
 hold on
@@ -77,24 +60,19 @@ num = 2.868e-05;
 
 den = -0.995;
 
-x = fmincon(@otimiza_Esq,x,[],[],[],[],[0 0],[inf inf],@QQQ,options);
+% sim('plantaMalhaInterna',t);
 
-%configuração dos parâmetros da malha externa (malha do motor esquerdo)
+x = fmincon(@otimiza_Esq,x,[],[],[],[],[0 0 0],[inf inf 1400],@QQQ,options);
 
-num_l = num;
-den_l = den;
+sim('plantaMalhaInterna',t);
 
-x_l(1) = x(1);
-x_l(2) = x(2);
-
+hold on
 plot(t,y_sys)
 
 % Direito:
 % 
-% [Kp Ki] = [409.5 1766.8]
+% [Kp Ki windup] = [409.5 1766.8 1000]
 
 % Esquerdo:
 % 
-% [Kp Ki] = [346.7 2619.0]
-
-%wn = wd*wn*sqrt(1-zeta)
+% [Kp Ki windup] = [346.7 2619.0 1232]

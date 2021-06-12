@@ -1,9 +1,9 @@
 clear all; close all; clc;
 
-tp = 0.235;
-ts = 0.442;
-tr = 0.138;
-pico = 0.942;%valor de pico
+% tp = 0.235;
+ts = 0.481;
+% tr = 0.138;
+pico = 0.952;%valor de pico
 est = 0.9048;% valor de estado estacionario
 tx_sobresinal = (pico-est)/est % equação da pagina 100 da apostila de lab de controle
 max_out = est;
@@ -22,9 +22,9 @@ wn = wn*1.1;
 
 sys = tf([0 0 wn^2*k_planta],[1 2*zeta*wn wn^2])
 % Função de Transferência encontrada:
-%          80.61
+%          89.16
 %   --------------------
-%   s^2 + 18.1 s + 161.3
+%   s^2 + 18.3 s + 178.4
 
 % step(sys);
 % 11.52*2*pi*0.1*0.25*step(sys);
@@ -45,23 +45,17 @@ plot(t,stp)
 %Planta de posição (integração da planta de velocidade angular)
 sys_pos = tf([0 0 wn^2*k_planta],[1 2*zeta*wn wn^2])*tf([0 1],[1 0])
 % Função de Transferência encontrada:
-%            80.61
+%            89.16
 %   ------------------------
-%   s^3 + 18.1 s^2 + 161.3 s
+%   s^3 + 18.3 s^2 + 178.4 s
 
 % Discretização:
 sys_pos_d = c2d(sys_pos,0.001,'tustin')
-           
 % Função de Transferência encontrada:
-%   9.986e-09 z^3 + 2.996e-08 z^2 + 2.996e-08 z + 9.986e-09
+%   1.104e-08 z^3 + 3.313e-08 z^2 + 3.313e-08 z + 1.104e-08
 %   -------------------------------------------------------
-%             z^3 - 2.982 z^2 + 2.964 z - 0.9821
+%             z^3 - 2.982 z^2 + 2.964 z - 0.9819
 
-% Apósmudar a saturação de 4000 para 4095
-
-% 1.207e-08 z^3 + 3.622e-08 z^2 + 3.622e-08 z + 1.207e-08
-%   -------------------------------------------------------
-%              z^3 - 2.98 z^2 + 2.96 z - 0.9803
 
 
 
