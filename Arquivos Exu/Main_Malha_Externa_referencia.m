@@ -12,10 +12,15 @@ den = [1 - 2.981694681338594 2.963566104560976 -0.981871423222382];
 
 %ganhos iniciais
 global x;
-x(1) = 18.16; %Kp
+% x(1) = 18.16; %Kp
+% x(2) = 0; %Ki
+% x(3) = 2; %Kd
+% x(4) = 1262;% Filtro
+
+x(1) = 0; %Kp
 x(2) = 0; %Ki
-x(3) = 2; %Kd
-x(4) = 1262;% Filtro
+x(3) = 0; %Kd
+x(4) = 0;% Filtro
 
 global t;
 t = 0:dt:1;
@@ -47,4 +52,12 @@ figure
 plot(t,y_ref)
 hold on
 plot(t,y_sys)
+
+
+
+
+
+
+
+
 
