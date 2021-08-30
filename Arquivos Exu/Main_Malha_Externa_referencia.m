@@ -33,13 +33,13 @@ y_sys = ans.y_sys;
 
 plot(t,y_ref)
 hold on
-plot(t,y_sys) 
+plot(t,y_sys)
 
 options = optimset('Algorithm','interior-point', ...
                     'Display','on','TolX',1e-8);
 
 %kp_max = 100.46; %kp_max = u_max/e_max; u_max = 4095; e_max = maximo do motor - zero
-x = fmincon(@otimiza_PIDF,x,[],[],[],[],[0 0 0 0],[inf inf inf inf],@QQQ,options);
+x = fmincon(@otimiza_PIDF_referencia,x,[],[],[],[],[0 0 0 0],[inf inf inf inf],@QQQ,options);
 
 
 sim('TesteMalhaExterna_referenciaR2018b',t);
@@ -47,7 +47,9 @@ sim('TesteMalhaExterna_referenciaR2018b',t);
 y_ref = ans.y_ref;
 y_sys = ans.y_sys;
 
-figure 
+figure
+
+t = 0:dt:1;
 
 plot(t,y_ref)
 hold on

@@ -16,8 +16,8 @@ y_sys = ans.y_sys;
 warning(w);
 
 %erro de ajuste
-erro_quad = (y_ref - y_sys)'*(y_ref - y_sys);
-% erro_quad = (y_ref(round(3*end/4:end)) - y_sys(round(3*end/4:end)))'*(y_ref(round(3*end/4:end)) - y_sys(round(3*end/4:end)));
+% erro_quad = (y_ref - y_sys)'*(y_ref - y_sys);
+erro_quad = (y_ref(round(3*end/4:end)) - y_sys(round(3*end/4:end)))'*(y_ref(round(3*end/4:end)) - y_sys(round(3*end/4:end)));
 % erro_quad = sum(abs(y_ref - y_sys)); % x1 = [19.084590462235568,0.834556138365885,2.934654194649224,1.261980419886278e+03]
 % erro_quad = sum(abs(y_ref(round(3*end/4:end)) - y_sys(round(3*end/4:end)))); x2 = %[19.084590462235568,0.834556138365885,2.934654194649224,1.261980419886278e+03]
 % erro_quad = sum(abs(y_ref(round(2*end/4:end)) - y_sys(round(2*end/4:end)))); %x3 = [19.084590462235568,0.834556138365885,2.934654194649224,1.261980419886278e+03]
