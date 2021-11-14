@@ -21,7 +21,7 @@ global t;
 t = 0:dt:1;
 
 
-sim('TesteMalhaExternaR2018b',t);
+sim('MalhaExternaSimplificadaR2018b',t);
 
 y_ref = ans.y_ref;
 y_sys = ans.y_sys;
@@ -37,7 +37,7 @@ options = optimset('Algorithm','interior-point', ...
 x = fmincon(@otimiza_PIDF,x,[],[],[],[],[0 0 0 0],[inf inf inf inf],@QQQ,options);
 
 
-sim('TesteMalhaExternaR2018b',t);
+sim('MalhaExternaSimplificadaR2018b',t);
 
 y_ref = ans.y_ref;
 y_sys = ans.y_sys;
@@ -47,4 +47,9 @@ figure
 plot(t,y_ref)
 hold on
 plot(t,y_sys)
+
+tranf_aux = tf([1 0],[x(4) 1]);
+x
+tranf_aux_d = c2d(tranf_aux,0.001,'tustin')
+
 
